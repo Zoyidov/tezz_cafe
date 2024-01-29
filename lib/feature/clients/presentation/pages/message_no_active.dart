@@ -9,22 +9,20 @@ import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 
-class ClientsScreen extends StatefulWidget {
-  const ClientsScreen({super.key});
+class MessageNoActive extends StatefulWidget {
+  const MessageNoActive({super.key});
 
   @override
-  State<ClientsScreen> createState() => _ClientsScreenState();
+  State<MessageNoActive> createState() => _MessageNoActiveState();
 }
 
-class _ClientsScreenState extends State<ClientsScreen> {
+class _MessageNoActiveState extends State<MessageNoActive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
-        // context.pushNamed(RouteNames.menu);
-        print('change');
-        context.read<TabCubit>().changeMessageState(true);
-      }, child: const Icon(Icons.add)),
+        context.read<TabCubit>().changeMessageState(false);
+      }, child: const Icon(Icons.arrow_back)),
       appBar: const ClientsAppBar(),
       body: const ClientsPageView(),
     );
@@ -96,7 +94,7 @@ class ClientsListView extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.all(20),
       itemBuilder: (context, index) {
-        return const ClientListItemActive();
+        return const ClientListItem();
       },
       separatorBuilder: (context, index) => const Gap(12),
       itemCount: 10,
@@ -118,7 +116,7 @@ class ClientListItem extends StatelessWidget {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClientIcon(),
+          ClientIcon(isActive: false),
           ClientDetails(),
         ],
       ),
