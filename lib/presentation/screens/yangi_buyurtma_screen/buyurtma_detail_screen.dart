@@ -2,18 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:tezz_cafe/utils/colors/colors.dart';
 import 'package:gap/gap.dart';
 
-class NotificationContainer extends StatelessWidget {
-  final String type;
-  final String place;
-  final String time;
-  final String status;
-  final VoidCallback? onTap;
-
-  const NotificationContainer({super.key, required this.type, required this.place, required this.time, required this.status, this.onTap});
+class BuyurtmaDetailScreen extends StatelessWidget {
+  const BuyurtmaDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Stol-1",
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text("1234567 so'm"),
+          )
+        ],
+      ),
+      body: Column(
+        children: [
+      Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       margin: const EdgeInsets.symmetric(
         horizontal: 20,
@@ -24,25 +32,25 @@ class NotificationContainer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                type,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                "Chaqiruv /12:00",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
               ),
               Text(
-               time,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.grey),
+                "hjfh",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.grey),
               ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                place,
-                style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
+              const Text(
+                "jhvjh",
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
               ),
               const Gap(20),
               Container(
@@ -64,13 +72,16 @@ class NotificationContainer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            onPressed: onTap,
-            child: Center(
+            onPressed: (){},
+            child: const Center(
                 child: Text(
-              status,
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            )),
+                  "hgfjhg",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                )),
           )
+        ],
+      ),
+    )
         ],
       ),
     );

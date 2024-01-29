@@ -5,4 +5,6 @@ class AppIcons{
   static const String Schaqiruv = "assets/icons/schaqiruv.svg";
   static const String mijozlar = "assets/icons/mijozlar.svg";
   static const String Smijozlar = "assets/icons/smijozlar.svg";
+  static const String email = "assets/icons/email.svg";
+  static const String lock = "assets/icons/lock.svg";
 }

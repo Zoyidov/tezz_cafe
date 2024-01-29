@@ -8,11 +8,20 @@ class ChaqiruvScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Bosh sahifa", style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
+        title: const Text(
+          "Bosh sahifa",
+          style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
+        ),
       ),
       body: Column(
         children: [
-          NotificationContainer()
+          NotificationContainer(
+            type: 'Chaqiruv',
+            place: 'STOL-1',
+            time: '12:34',
+            status: 'Boryapman',
+            onTap: (){},
+          )
         ],
       ),
     );
