@@ -21,7 +21,7 @@ class YangiBuyurtmaScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final stolNumber = index + 1;
           return NotificationContainer(
-            type: 'Chaqiruv',
+            type: 'Yangi buyurtma',
             place: 'STOL-$stolNumber',
             time: '12:34',
             status: 'Ko\'rish',
