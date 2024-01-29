@@ -5,6 +5,7 @@ import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/presentation/widgets/textfield.dart';
 import 'package:tezz_cafe/utils/colors/colors.dart';
 
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -32,8 +33,9 @@ class LoginScreen extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 caption: "Email"),
-            const GlobalTextField(
-                prefixIcon: Icons.lock,
+            GlobalTextField(
+              prefixIcon: Icons.lock,
+                // prefixIcon: SvgPicture.asset(AppIcons.lock),
                 hintText: "Password",
                 keyboardType: TextInputType.visiblePassword,
                 textInputAction: TextInputAction.done,
