@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tezz_cafe/utils/colors/colors.dart';
 import 'package:gap/gap.dart';
 
-class NotificationContainer extends StatelessWidget {
+class RecievedContainer extends StatelessWidget {
   final String type;
   final String place;
-  final String time;
   final String status;
   final VoidCallback? onTap;
 
-  const NotificationContainer({super.key, required this.type, required this.place, required this.time, required this.status, this.onTap});
+  const RecievedContainer({super.key, required this.type, required this.place, required this.status, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +31,7 @@ class NotificationContainer extends StatelessWidget {
                 type,
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
               ),
-              Text(
-               time,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.grey),
-              ),
+              IconButton(onPressed: onTap, icon: const Icon(Icons.clear))
             ],
           ),
           Row(
@@ -51,27 +47,12 @@ class NotificationContainer extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 child: const Icon(
                   Icons.notifications_active_rounded,
-                  color: Colors.red,
+                  color: AppColors.green,
                   size: 40,
                 ),
               ),
             ],
           ),
-          const Divider(),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            onPressed: onTap,
-            child: Center(
-                child: Text(
-              status,
-              style: const TextStyle(fontSize: 18, color: Colors.white),
-            )),
-          )
         ],
       ),
     );

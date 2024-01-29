@@ -1,16 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tezz_cafe/presentation/screens/yangi_buyurtma_screen/order_container.dart';
 import 'package:tezz_cafe/utils/colors/colors.dart';
-import 'package:gap/gap.dart';
 
 class BuyurtmaDetailScreen extends StatelessWidget {
-  const BuyurtmaDetailScreen({super.key});
+  final int stolNumber;
+  const BuyurtmaDetailScreen({super.key, required this.stolNumber});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Stol-1",
+        scrolledUnderElevation: 0,
+        title: Text(
+          "Stol-$stolNumber",
         ),
         actions: const [
           Padding(
@@ -19,70 +22,46 @@ class BuyurtmaDetailScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Column(
-        children: [
-      Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      margin: const EdgeInsets.symmetric(
-        horizontal: 20,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.textFieldColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Chaqiruv /12:00",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-              ),
-              Text(
-                "hjfh",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.grey),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "jhvjh",
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
-              ),
-              const Gap(20),
-              Container(
-                decoration: const BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
-                padding: const EdgeInsets.all(20),
-                child: const Icon(
-                  Icons.notifications_active_rounded,
-                  color: Colors.red,
-                  size: 40,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) => OrderContainer(
+                  time: "/12:00",
+                  foodName: "G'ijduvon shashlik Ajoyib shashlik",
+                  price: "56 000 uzs",
+                  count: "3 ta : ",
+                  countPrice: "168 000 uzs",
+                  image: "https://source.unsplash.com/800x533/?food",
+                  onTap: () {},
                 ),
-              ),
-            ],
-          ),
-          const Divider(),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                itemCount: 5,
+                shrinkWrap: true,
               ),
             ),
-            onPressed: (){},
-            child: const Center(
-                child: Text(
-                  "hgfjhg",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                )),
-          )
-        ],
+          ],
+        ),
       ),
-    )
-        ],
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.only(left: 20, right: 20,bottom: 25),
+        height: 50,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          onPressed: () {},
+          child: const Center(
+            child: Text(
+              "Buyurtma berish",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
+            ),
+          ),
+        ),
       ),
     );
   }
