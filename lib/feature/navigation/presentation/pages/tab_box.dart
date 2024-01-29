@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 import 'package:tezz_cafe/presentation/screens/chaqiruv_screen/chaqiruv_screen.dart';
-import 'package:tezz_cafe/presentation/screens/mijojzlar_screen/mijojzlar_screen.dart';
+import 'package:tezz_cafe/feature/clients/presentation/pages/mijojzlar_screen.dart';
 import 'package:tezz_cafe/presentation/screens/yangi_buyurtma_screen/yangi_buyurtma_screen.dart';
 import 'package:tezz_cafe/utils/icons/icons.dart';
-import '../../business_logic/cubit/tab_cubit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TabBox extends StatefulWidget {
@@ -20,7 +20,7 @@ class TabBoxState extends State<TabBox> {
   List<Widget> pages = [
     const ChaqiruvScreen(),
     const YangiBuyurtmaScreen(),
-    const MijozlarScreen(),
+    const ClientsScreen(),
   ];
 
   @override

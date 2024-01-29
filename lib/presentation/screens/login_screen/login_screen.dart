@@ -1,8 +1,9 @@
+import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:tezz_cafe/presentation/tab_box/tab_box.dart';
+import 'package:gap/gap.dart';
+import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/presentation/widgets/textfield.dart';
 import 'package:tezz_cafe/utils/colors/colors.dart';
-import 'package:gap/gap.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -47,10 +48,12 @@ class LoginScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TabBox()));
-              },
-              child: const Center(child: Text('Kirish', style: TextStyle(fontSize: 18,color: Colors.white),)),
+              onPressed: () => context.pushNamed(RouteNames.home),
+              child: const Center(
+                  child: Text(
+                'Kirish',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              )),
             )
           ],
         ),
