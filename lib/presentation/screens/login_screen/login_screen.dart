@@ -15,13 +15,11 @@ class LoginScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
-
           children: [
             Center(
               child: Container(
                   padding: const EdgeInsets.all(50),
                   decoration: const BoxDecoration(
-
                       shape: BoxShape.circle,
                       // borderRadius: BorderRadius.circular(10),
                       color: AppColors.mainColor),
@@ -29,8 +27,6 @@ class LoginScreen extends StatelessWidget {
             ),
             const Gap(32),
             const GlobalTextField(
-2
-
                 prefixIcon: Icons.email,
                 hintText: "Email",
                 keyboardType: TextInputType.emailAddress,
@@ -51,7 +47,11 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () => context.pushNamed(RouteNames.home),
-              child: const Center(child: Text('Kirish', style: TextStyle(fontSize: 18,color: Colors.white),)),
+              child: const Center(
+                  child: Text(
+                'Kirish',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              )),
             )
           ],
         ),
