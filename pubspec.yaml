@@ -20,10 +20,22 @@ dependencies:
   cached_network_image: ^3.3.1
   path_provider: ^2.1.2
   flutter_svg: ^2.0.9
+  freezed_annotation: ^2.4.1
+  loading_animation_widget: ^1.2.0+4
+  json_annotation: ^4.8.1
+  retrofit: ^4.0.3
+  dio: ^5.4.0
+  formz: ^0.6.1
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^3.0.1
+  retrofit_generator: ^8.0.6
+  build_runner: ^2.4.8
+  json_serializable: ^6.7.1
+  freezed: ^2.4.6
 
 
 flutter:

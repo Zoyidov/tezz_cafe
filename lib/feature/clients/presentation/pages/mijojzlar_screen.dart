@@ -113,7 +113,7 @@ class ClientListItem extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: AppColors.listTileBackgroundColor,
+        color: AppColors.textFieldColor,
       ),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,7 +189,7 @@ class ClientListItemActive extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: AppColors.listTileBackgroundColor,
+          color: AppColors.textFieldColor,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

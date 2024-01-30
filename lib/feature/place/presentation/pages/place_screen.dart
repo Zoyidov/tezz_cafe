@@ -39,7 +39,7 @@ class PlaceScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Container(
                   decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.listTileBackgroundColor
+                      BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.textFieldColor
                           // border: Border.all()
                           ),
                   padding: const EdgeInsets.all(16),

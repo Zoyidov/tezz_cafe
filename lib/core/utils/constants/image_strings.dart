@@ -8,6 +8,7 @@ class AppImages {
   static const String food = 'assets/images/Rectangle 24847.png';
   static const String food1 = 'assets/images/img.png';
   static const String food2 = 'assets/images/Rectangle 24847 (2).png';
+  static const String imageNotFound = 'assets/images/not_found_image.png';
 
 
 }

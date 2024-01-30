@@ -20,9 +20,11 @@ class _MessageNoActiveState extends State<MessageNoActive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        context.read<TabCubit>().changeMessageState(false);
-      }, child: const Icon(Icons.arrow_back)),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            context.read<TabCubit>().changeMessageState(false);
+          },
+          child: const Icon(Icons.arrow_back)),
       appBar: const ClientsAppBar(),
       body: const ClientsPageView(),
     );
@@ -111,13 +113,12 @@ class ClientListItem extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: AppColors.listTileBackgroundColor,
+        color: AppColors.textFieldColor,
       ),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ClientIcon(isActive: false),
-          ClientDetails(),
         ],
       ),
     );
@@ -187,7 +188,7 @@ class ClientListItemActive extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: AppColors.listTileBackgroundColor,
+          color: AppColors.textFieldColor,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

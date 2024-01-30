@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tezz_cafe/feature/menu/presentation/pages/category_screen.dart';
+import 'package:tezz_cafe/feature/menu/data/models/menu_model.dart';
+import 'package:tezz_cafe/feature/product/data/models/product_model.dart';
+import 'package:tezz_cafe/feature/product/presentation/pages/product_screen.dart';
 import 'package:tezz_cafe/feature/menu/presentation/pages/food_detail_screen.dart';
 import 'package:tezz_cafe/feature/menu/presentation/pages/menu_screen.dart';
 import 'package:tezz_cafe/feature/place/presentation/pages/place_screen.dart';
-import 'package:tezz_cafe/presentation/screens/login_screen/login_screen.dart';
+import 'package:tezz_cafe/feature/auth/presentation/pages/login_screen.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/pages/tab_box.dart';
 
 class RouteNames {
@@ -21,7 +23,7 @@ class AppRoutes {
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteNames.splash:
-        return MaterialPageRoute(builder: (context) => const TabBox());
+        return MaterialPageRoute(builder: (context) => const LoginScreen());
       case RouteNames.login:
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case RouteNames.home:
@@ -29,9 +31,9 @@ class AppRoutes {
       case RouteNames.menu:
         return MaterialPageRoute(builder: (context) => const MenuScreen());
       case RouteNames.category:
-        return MaterialPageRoute(builder: (context) => const CategoryScreen());
+        return MaterialPageRoute(builder: (context) =>  ProductScreen(menuModel: settings.arguments as MenuModel,));
       case RouteNames.foodDetail:
-        return MaterialPageRoute(builder: (context) => const FoodDetailScreen());
+        return MaterialPageRoute(builder: (context) =>  FoodDetailScreen(product: settings.arguments as ProductModel,));
       case RouteNames.place:
         return MaterialPageRoute(builder: (context) => const PlaceScreen());
     }

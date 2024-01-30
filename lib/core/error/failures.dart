@@ -22,3 +22,16 @@ class NetworkFailure extends Failure {
 class NoInternetFailure extends Failure {
   const NoInternetFailure(super.message);
 }
+
+class ParseFailure extends Failure {
+  const ParseFailure(super.message);
+}
+
+// failure for status code not 200
+class StatusFailure extends Failure {
+  const StatusFailure(super.message);
+}
+
+class UnknownFailure extends Failure {
+  const UnknownFailure(super.message);
+}

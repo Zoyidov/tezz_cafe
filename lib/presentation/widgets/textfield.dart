@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/utils/colors/colors.dart';
 
 class GlobalTextField extends StatefulWidget {
@@ -91,7 +92,7 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
               borderRadius: BorderRadius.circular(8),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: AppColors.black, width: 1),
+              borderSide:  BorderSide(color: AppColors.black, width: 1),
               borderRadius: BorderRadius.circular(8),
             ),
             errorBorder: OutlineInputBorder(

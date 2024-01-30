@@ -16,7 +16,12 @@ class AppColors {
   static Color seryFon = const Color(0xFFF5F4F5);
   static Color green = const Color(0xFF04E628);
   static Color red = const Color(0xFFF91506);
-  static Color listTileBackgroundColor = const Color(0xFFF5F5F5);
+  static Color textFieldColor = const Color(0xFFF5F5F5);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color fillColor = Color(0xCCCCCCCC);
+  static const Color captionColor = Color(0xFF56585E);
+  static const Color mainColor = Color(0xFFF9E7FF);
+  static const Color containerColor = Color(0xFFF5F4F5);
   static const Color orange = Color(0xfff96c06);
   static const Color yellow = Color(0xfff9e106);
   static const Color grey200 = Color(0xffd7d4d8);

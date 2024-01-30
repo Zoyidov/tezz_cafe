@@ -6,107 +6,120 @@ import 'package:gap/gap.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/constants/font_style.dart';
 import 'package:tezz_cafe/core/utils/constants/image_strings.dart';
+import 'package:tezz_cafe/core/utils/formatters/currency_formatter.dart';
 import 'package:tezz_cafe/feature/menu/presentation/manager/menu_bloc.dart';
 import 'package:tezz_cafe/feature/menu/presentation/widgets/place_actions_widget.dart';
+import 'package:tezz_cafe/feature/product/data/models/product_model.dart';
+import 'package:tezz_cafe/feature/product/presentation/manager/product_bloc.dart';
 
 class FoodDetailScreen extends StatelessWidget {
-  const FoodDetailScreen({super.key});
+  const FoodDetailScreen({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('G’ijduvon shashlik'),
-        actions: const [PlaceActionWidget()],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(12),
-        controller: context.read<MenuBloc>().scrollController,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: 200,
-              width: 336,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-              child: Image.asset(
-                AppImages.food1,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const Gap(12),
-            Column(
+    return BlocBuilder<ProductBloc, ProductState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(product.title),
+            actions: const [PlaceActionWidget()],
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(12),
+            controller: context
+                .read<MenuBloc>()
+                .scrollController,
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'G’ijduvon shashlik',
-                  style: context.titleMedium?.copyWith(
-                    color: AppColors.black,
-                    fontWeight: FontWeight.w600,
-                    height: 1.25,
-                    fontSize: 20,
+                Container(
+                  height: 200,
+                  width: 336,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                  child: Image.asset(
+                    AppImages.food1,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 const Gap(12),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      '36 000 uzs',
-                      style: AppFontStyle.description2.copyWith(color: AppColors.red),
-                    ),
-                    const Gap(14),
-                    Text(
-                      '546 000 uzs',
-                      style: context.labelSmall?.copyWith(
-                        color: AppColors.black400,
-                        height: 1.6,
-                        decoration: TextDecoration.lineThrough,
-                        fontSize: 10,
+                      product.title,
+                      style: context.titleMedium?.copyWith(
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w600,
+                        height: 1.25,
+                        fontSize: 20,
                       ),
                     ),
+                    const Gap(12),
+                    Row(
+                      children: [
+                        Text(
+                          uzbekCurrencyFormat.format(product.price),
+                          style: AppFontStyle.description2.copyWith(color: AppColors.red),
+                        ),
+                        // const Gap(14),
+                        // Text(
+                        //   '546 000 uzs',
+                        //   style: context.labelSmall?.copyWith(
+                        //     color: AppColors.black400,
+                        //     height: 1.6,
+                        //     decoration: TextDecoration.lineThrough,
+                        //     fontSize: 10,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Gap(12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Divider(),
+                    const Gap(12),
+                    Text(
+                      'Tarif:',
+                      style: context.titleMedium?.copyWith(color: AppColors.grey500, fontWeight: FontWeight.w600),
+                    ),
+                    const Gap(4),
+                    Text(
+                      product.desc,
+                      style: AppFontStyle.description.copyWith(color: AppColors.grey500),
+                    )
+                    // ListView.builder(
+                    //   shrinkWrap: true,
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   itemCount: 6,
+                    //   itemBuilder: (context, index) {
+                    //     return ListTile(
+                    //       leading: Text(index.toString()),
+                    //       title: const Text('Qo’y go’shti, yirik holda to’g’lalgan'),
+                    //     );
+                    //   },
+                    // )
                   ],
                 ),
               ],
             ),
-            const Gap(12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Divider(),
-                const Gap(12),
-                Text(
-                  'Tarkibi:',
-                  style: context.titleMedium?.copyWith(color: AppColors.grey500, fontWeight: FontWeight.w600),
-                ),
-                const Gap(4),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: Text(index.toString()),
-                      title: const Text('Qo’y go’shti, yirik holda to’g’lalgan'),
-                    );
-                  },
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: BlocBuilder<MenuBloc, MenuState>(
-        builder: (context, state) {
-          return AnimatedOpacity(
+          ),
+          floatingActionButton: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             // top: state.isVisible ? 0 : 100,
             opacity: state.isVisible ? 1 : 0,
             child: Row(mainAxisSize: MainAxisSize.min, children: [
-              IconButton.filledTonal(onPressed: () {}, icon: const Icon(Icons.remove), style: iconButtonStyle),
+              IconButton.filledTonal(onPressed: () {
+                context.read<ProductBloc>().add(ProductDecrement());
+              }, icon: const Icon(Icons.remove), style: iconButtonStyle),
               const Gap(12),
               Text(
-                '2',
+                state.count.toString(),
                 style: context.titleMedium?.copyWith(
                   color: AppColors.black,
                   fontWeight: FontWeight.w600,
@@ -115,18 +128,20 @@ class FoodDetailScreen extends StatelessWidget {
                 ),
               ),
               const Gap(12),
-              IconButton.filledTonal(onPressed: () {}, icon: const Icon(Icons.add), style: iconButtonStyle),
+              IconButton.filledTonal(onPressed: () {
+                context.read<ProductBloc>().add(ProductIncrement());
+              }, icon: const Icon(Icons.add), style: iconButtonStyle),
             ]),
-          );
-        },
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: FilledButton(
-          onPressed: () {},
-          child: const Text('72 000 so’m'),
-        ),
-      ),
+          ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: FilledButton(
+              onPressed: () {},
+              child: Text(currencyFormat.format(product.price * state.count), style: AppFontStyle.description2),
+            ),
+          ),
+        );
+      },
     );
   }
 }

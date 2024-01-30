@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/utils/colors/colors.dart';
 import 'package:gap/gap.dart';
 
@@ -45,7 +46,7 @@ class RecievedContainer extends StatelessWidget {
               Container(
                 decoration: const BoxDecoration(color: AppColors.white, shape: BoxShape.circle),
                 padding: const EdgeInsets.all(20),
-                child: const Icon(
+                child:  Icon(
                   Icons.notifications_active_rounded,
                   color: AppColors.green,
                   size: 40,
