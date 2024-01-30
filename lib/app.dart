@@ -2,10 +2,16 @@ import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
+import 'package:tezz_cafe/core/utils/di/service_locator.dart';
+import 'package:tezz_cafe/feature/auth/domain/use_cases/login_use_case.dart';
+import 'package:tezz_cafe/feature/auth/presentation/manager/auth_bloc.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
+import 'package:tezz_cafe/feature/menu/domain/use_cases/get_menu_items_use_case.dart';
 import 'package:tezz_cafe/feature/menu/presentation/manager/menu_bloc.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tezz_cafe/feature/product/domain/use_cases/get_product_by_menu_id_usecase.dart';
+import 'package:tezz_cafe/feature/product/presentation/manager/product_bloc.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -15,8 +21,12 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<TabCubit>(create: (context) => TabCubit()),
-        BlocProvider<ClientTabBloc>(create: (context) => ClientTabBloc()),
-        BlocProvider<MenuBloc>(create: (context) => MenuBloc()),
+        BlocProvider(create: (context) => ClientTabBloc()),
+        BlocProvider(create: (context) => MenuBloc(getIt.get<GetMenuItemsUseCase>())..add(GetMenuItems())),
+        BlocProvider(create: (context) => AuthBloc(getIt.get<LoginUseCase>())),
+        BlocProvider(create: (context) => ProductBloc(getIt.get<GetProductByMenuIdUseCase>())),
+
+
       ],
       child: const MainApp(),
     );
@@ -40,6 +50,12 @@ class MainApp extends StatelessWidget {
                 height: 1.2,
                 color: AppColors.black,
               )),
+          inputDecorationTheme: InputDecorationTheme(
+            isDense: true,
+            filled: true,
+            fillColor: AppColors.textFieldColor,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          ),
           floatingActionButtonTheme: FloatingActionButtonThemeData(
               shape: const CircleBorder(), backgroundColor: AppColors.primaryColor, foregroundColor: Colors.white),
           toggleButtonsTheme: ToggleButtonsThemeData(
@@ -59,12 +75,10 @@ class MainApp extends StatelessWidget {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             backgroundColor: AppColors.primaryColor,
           )),
-      listTileTheme: ListTileThemeData(
-        titleTextStyle: context.bodyLarge?.copyWith(color: AppColors.grey500),
-        leadingAndTrailingTextStyle: context.bodyLarge?.copyWith(color: AppColors.grey500),
-        minLeadingWidth: 12
-      )),
-
+          listTileTheme: ListTileThemeData(
+              titleTextStyle: context.bodyLarge?.copyWith(color: AppColors.grey500),
+              leadingAndTrailingTextStyle: context.bodyLarge?.copyWith(color: AppColors.grey500),
+              minLeadingWidth: 12)),
       onGenerateRoute: AppRoutes.generateRoute,
     );
   }

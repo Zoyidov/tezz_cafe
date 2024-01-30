@@ -11,7 +11,7 @@ class PlaceActionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pushNamed(RouteNames.place),
+      // onTap: () => context.pushNamed(RouteNames.place),
       child: Container(
         height: 24,
         margin: const EdgeInsets.only(right: 16),

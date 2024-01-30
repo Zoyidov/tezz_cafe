@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/utils/colors/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gap/gap.dart';
@@ -13,7 +14,7 @@ class OrderContainer extends StatelessWidget {
   final String countPrice;
   final String image;
   final VoidCallback? onTap;
-  const OrderContainer({super.key, required this.time, required this.foodName, required this.count, required this.price, required this.countPrice, required this.image, this.onTap});
+  OrderContainer({super.key, required this.time, required this.foodName, required this.count, required this.price, required this.countPrice, required this.image, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class OrderContainer extends StatelessWidget {
                   Container(
                     height: 12,
                     width: 12,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: AppColors.green,
                       shape: BoxShape.circle,
                     ),
@@ -44,7 +45,7 @@ class OrderContainer extends StatelessWidget {
                   const Gap(8),
                   RichText(
                     text:  TextSpan(children: [
-                      const TextSpan(
+                      TextSpan(
                         text: "Chaqiruv",
                         style: TextStyle(
                             fontSize: 16,
@@ -53,7 +54,7 @@ class OrderContainer extends StatelessWidget {
                       ),
                       TextSpan(
                         text: time,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             color: AppColors.grey400),
@@ -64,7 +65,7 @@ class OrderContainer extends StatelessWidget {
               ),
               IconButton(
                   onPressed: onTap,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.clear,
                     color: AppColors.grey500,
                   ))
@@ -99,12 +100,12 @@ class OrderContainer extends StatelessWidget {
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                     const Gap(8),
-                     Text(price, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.grey400)),
+                     Text(price, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.grey400)),
                     const Gap(4),
                     RichText(text:  TextSpan(children: [
                       TextSpan(
                           text: count,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppColors.primaryColor
@@ -112,7 +113,7 @@ class OrderContainer extends StatelessWidget {
                       ),
                       TextSpan(
                           text: countPrice,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppColors.grey500
