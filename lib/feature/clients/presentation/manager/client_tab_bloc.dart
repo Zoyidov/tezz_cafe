@@ -31,6 +31,6 @@ class ClientTabBloc extends Bloc<ClientTabEvent, ClientTabState> {
       updatedSelection[i] = i == event.index;
     }
     emit(state.copyWith(clientTabIndex: event.index, isSelected: updatedSelection));
-    pageController.jumpToPage(event.index);
+    pageController.animateToPage(event.index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 }

@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
+import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 
 class ClientsScreen extends StatefulWidget {
   const ClientsScreen({super.key});
@@ -20,7 +21,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () {
-        context.pushNamed(RouteNames.menu);
+        // context.pushNamed(RouteNames.menu);
+        print('change');
+        context.read<TabCubit>().changeMessageState(true);
       }, child: const Icon(Icons.add)),
       appBar: const ClientsAppBar(),
       body: const ClientsPageView(),
@@ -110,7 +113,7 @@ class ClientListItem extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: AppColors.listTileBackgroundColor,
+        color: AppColors.textFieldColor,
       ),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -178,29 +181,34 @@ class ClientListItemActive extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: AppColors.listTileBackgroundColor,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ClientIcon(),
-              ClientDetails(),
-            ],
-          ),
-          const Gap(20),
-          Text(
-            "234 000 so’m",
-            textAlign: TextAlign.right,
-            style: context.titleMedium?.copyWith(color: AppColors.black),
-          )
-        ],
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed(RouteNames.place);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.textFieldColor,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ClientIcon(),
+                ClientDetails(),
+              ],
+            ),
+            const Gap(20),
+            Text(
+              "234 000 so’m",
+              textAlign: TextAlign.right,
+              style: context.titleMedium?.copyWith(color: AppColors.black),
+            )
+          ],
+        ),
       ),
     );
   }

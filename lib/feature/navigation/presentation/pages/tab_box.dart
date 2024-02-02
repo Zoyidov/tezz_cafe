@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tezz_cafe/feature/clients/presentation/pages/message_no_active.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 import 'package:tezz_cafe/presentation/screens/chaqiruv_screen/chaqiruv_screen.dart';
 import 'package:tezz_cafe/feature/clients/presentation/pages/mijojzlar_screen.dart';
@@ -15,8 +16,6 @@ class TabBox extends StatefulWidget {
 }
 
 class TabBoxState extends State<TabBox> {
-
-
   List<Widget> pages = [
     const ChaqiruvScreen(),
     const YangiBuyurtmaScreen(),
@@ -27,28 +26,39 @@ class TabBoxState extends State<TabBox> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: false,
-      body: IndexedStack(
-        index: context.watch<TabCubit>().state,
-        children: pages,
+      body: BlocBuilder<TabCubit, TabState>(
+        builder: (context, state) {
+          return IndexedStack(
+            index: context.watch<TabCubit>().state.index,
+            children: [
+              const ChaqiruvScreen(),
+              const YangiBuyurtmaScreen(),
+              state.isActive ? MessageNoActive() : ClientsScreen(),
+            ],
+          );
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: context.watch<TabCubit>().state,
+        currentIndex: context.watch<TabCubit>().state.index,
         onTap: context.read<TabCubit>().changeTab,
         items: [
           BottomNavigationBarItem(
-            icon: context.watch<TabCubit>().state == 0 ? SvgPicture.asset(AppIcons.Schaqiruv) : SvgPicture.asset(AppIcons.chaqiruv),
+            activeIcon: SvgPicture.asset(AppIcons.Schaqiruv),
+            icon: SvgPicture.asset(AppIcons.chaqiruv),
             label: "Chaqiruv",
           ),
           BottomNavigationBarItem(
-            icon: context.watch<TabCubit>().state == 1 ? SvgPicture.asset(AppIcons.Sbuyurtma) : SvgPicture.asset(AppIcons.buyurtma),
+            activeIcon: SvgPicture.asset(AppIcons.Sbuyurtma),
+            icon: SvgPicture.asset(AppIcons.buyurtma),
             label: "Yangi Buyurtma",
           ),
           BottomNavigationBarItem(
-            icon: context.watch<TabCubit>().state == 2 ? SvgPicture.asset(AppIcons.Smijozlar) : SvgPicture.asset(AppIcons.mijozlar),
+            activeIcon: SvgPicture.asset(AppIcons.Smijozlar),
+            icon: SvgPicture.asset(AppIcons.mijozlar),
             label: "Mijozlar",
           ),
-        ]
-      )
+        ],
+      ),
     );
   }
 }
