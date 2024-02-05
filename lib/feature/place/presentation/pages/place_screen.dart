@@ -15,8 +15,8 @@ class PlaceScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Stol-1'),
-        actions: [
-          const Padding(
+        actions: const [
+          Padding(
             padding: EdgeInsets.all(16.0),
             child: Text('1 234 000 so’m', style: AppFontStyle.description2),
           )

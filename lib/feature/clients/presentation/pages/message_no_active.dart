@@ -1,12 +1,14 @@
-import 'dart:math';
 
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
-import 'package:tezz_cafe/core/route/ruotes.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
+import 'package:tezz_cafe/feature/clients/data/models/table_model.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
+import 'package:tezz_cafe/feature/clients/presentation/pages/mijojzlar_screen.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 
 class MessageNoActive extends StatefulWidget {
@@ -55,17 +57,33 @@ class ToggleButtonsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final clientTabBloc = context.read<ClientTabBloc>();
-    final width = context.width * 0.9 / max(1, clientTabBloc.state.isSelected.length);
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(color: AppColors.toggleSelectedColor, borderRadius: BorderRadius.circular(8)),
-      height: 40,
-      child: ToggleButtons(
-        constraints: BoxConstraints(maxWidth: width, minWidth: width, minHeight: width, maxHeight: width),
-        isSelected: context.watch<ClientTabBloc>().state.isSelected,
-        onPressed: (int index) => clientTabBloc.add(TabChanged(index: index)),
-        children: clientTabBloc.tabs.map((e) => Text(e)).toList(),
-      ),
+
+    // final width = context.width * 0.9 / max(1, clientTabBloc.state.isSelected.length);
+    return BlocBuilder<ClientTabBloc, ClientTabState>(
+      builder: (context, state) {
+        if (state.zoneStatus.isInProgress) {
+          return const Skeletonizer(child: ZoneShimmerWidget());
+        } else if (state.zones.isEmpty && state.zoneStatus.isSuccess) {
+          return const Text('Zonalar mavjud emas');
+        }
+
+        return Container(
+          height: 40,
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: ToggleButtons(
+              borderRadius: BorderRadius.circular(10),
+              constraints: BoxConstraints(
+                  maxWidth: context.width * 0.3, minWidth: context.width * 0.3, minHeight: 36, maxHeight: 36),
+              isSelected: context.watch<ClientTabBloc>().state.isSelectedNoActive,
+              onPressed: (int index) => clientTabBloc.add(TabChangedNoActive(index: index)),
+              children: state.zones.map((e) => Text(e.title)).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -77,35 +95,62 @@ class ClientsPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final clientTabBloc = context.read<ClientTabBloc>();
 
-    return PageView.builder(
-      itemCount: 3,
-      controller: clientTabBloc.pageController,
-      onPageChanged: (value) => clientTabBloc.add(PageChanged(index: value)),
-      itemBuilder: (context, index) {
-        return const ClientsListView();
+    return BlocBuilder<ClientTabBloc, ClientTabState>(
+      builder: (context, state) {
+        print(state.noActiveClientTabIndex);
+        if (state.tableStatus.isInProgress) {
+          return const CircularProgressIndicator();
+        }
+        if (state.tables.isEmpty && state.tableStatus.isSuccess) {
+          return const Text('Stollar mavjud emas');
+        }
+        return PageView.builder(
+          itemCount: clientTabBloc.state.zones.length,
+          controller: clientTabBloc.pageControllerNoActive,
+          onPageChanged: (value) => clientTabBloc.add(PageChangedNoActive(index: value)),
+          itemBuilder: (context, index) {
+            return ClientsListView(index: index);
+          },
+        );
       },
     );
   }
 }
 
 class ClientsListView extends StatelessWidget {
-  const ClientsListView({super.key});
+  const ClientsListView({super.key, required this.index});
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(20),
-      itemBuilder: (context, index) {
-        return const ClientListItem();
+    return BlocBuilder<ClientTabBloc, ClientTabState>(
+      builder: (context, state) {
+        final List<TableModel> filteredTables =
+            state.tables.where((element) => state.zones[index].id == element.zoneId && !element.active).toList();
+        if (filteredTables.isEmpty) {
+          return Center(
+            child: Text('Faol bo`lmagan stollar topilmadi',style: context.titleLarge,textAlign: TextAlign.center,),
+          );
+        }
+        return ListView.separated(
+          padding: const EdgeInsets.all(20),
+          itemBuilder: (context, index) {
+            final table = filteredTables[index];
+            return ClientListItem(table: table);
+          },
+          separatorBuilder: (context, index) => const Gap(12),
+          itemCount: filteredTables.length,
+        );
       },
-      separatorBuilder: (context, index) => const Gap(12),
-      itemCount: 10,
     );
   }
 }
 
 class ClientListItem extends StatelessWidget {
-  const ClientListItem({super.key});
+  const ClientListItem({super.key, required this.table});
+
+  final TableModel table;
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +160,10 @@ class ClientListItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         color: AppColors.textFieldColor,
       ),
-      child: const Row(
+      child:  Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClientIcon(isActive: false),
+          ClientIcon(isActive: table.active, table: table),
         ],
       ),
     );
@@ -126,8 +171,8 @@ class ClientListItem extends StatelessWidget {
 }
 
 class ClientIcon extends StatelessWidget {
-  const ClientIcon({super.key, this.isActive = true});
-
+  const ClientIcon({super.key, this.isActive = true, required this.table});
+final TableModel table;
   final bool isActive;
 
   @override
@@ -137,7 +182,7 @@ class ClientIcon extends StatelessWidget {
         CircleIcon(isActive: isActive),
         const Gap(8),
         Text(
-          'Stol-1',
+          table.stolNomi,
           style: context.headlineSmall?.copyWith(color: AppColors.black, fontWeight: FontWeight.w600),
         ),
       ],
@@ -163,52 +208,17 @@ class CircleIcon extends StatelessWidget {
   }
 }
 
-class ClientDetails extends StatelessWidget {
-  const ClientDetails({super.key});
+// class ClientDetails extends StatelessWidget {
+//   const ClientDetails({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Text(
+//       '12:00',
+//       style: context.bodySmall?.copyWith(color: AppColors.grey400),
+//     );
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      '12:00',
-      style: context.bodySmall?.copyWith(color: AppColors.grey400),
-    );
-  }
-}
 
-class ClientListItemActive extends StatelessWidget {
-  const ClientListItemActive({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.pushNamed(RouteNames.place);
-      },
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: AppColors.textFieldColor,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ClientIcon(),
-                ClientDetails(),
-              ],
-            ),
-            const Gap(20),
-            Text(
-              "234 000 so’m",
-              textAlign: TextAlign.right,
-              style: context.titleMedium?.copyWith(color: AppColors.black),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}

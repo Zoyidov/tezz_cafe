@@ -5,11 +5,17 @@ import 'package:tezz_cafe/core/utils/di/dio_settings.dart';
 import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
 import 'package:tezz_cafe/feature/auth/data/data_sources/auth_datasource.dart';
 import 'package:tezz_cafe/feature/auth/data/repositories/user_repository_impl.dart';
-import 'package:tezz_cafe/feature/auth/domain/repositories/user_repository.dart';
 import 'package:tezz_cafe/feature/auth/domain/use_cases/login_use_case.dart';
+import 'package:tezz_cafe/feature/clients/data/data_sources/table_data_source.dart';
+import 'package:tezz_cafe/feature/clients/data/data_sources/zone_datasource.dart';
+import 'package:tezz_cafe/feature/clients/data/repositories/table_repo_impl.dart';
+import 'package:tezz_cafe/feature/clients/data/repositories/zone_repo_impl.dart';
+import 'package:tezz_cafe/feature/clients/domain/repositories/table_repo.dart';
+import 'package:tezz_cafe/feature/clients/domain/repositories/zone_repository.dart';
+import 'package:tezz_cafe/feature/clients/domain/use_cases/get_table_by_waitress_id_usecase.dart';
+import 'package:tezz_cafe/feature/clients/domain/use_cases/get_zones_usecase.dart';
 import 'package:tezz_cafe/feature/menu/data/data_sources/menu_data_source.dart';
 import 'package:tezz_cafe/feature/menu/data/repositories/menu_repo_impl.dart';
-import 'package:tezz_cafe/feature/menu/domain/repositories/menu_repository.dart';
 import 'package:tezz_cafe/feature/menu/domain/use_cases/get_menu_items_use_case.dart';
 import 'package:tezz_cafe/feature/product/data/data_sources/product_data_source.dart';
 import 'package:tezz_cafe/feature/product/data/repositories/product_repository_impl.dart';
@@ -25,15 +31,21 @@ Future<void> setupLocator() async {
   // Register your data sources here
   getIt.registerSingleton<MenuDataSourceImpl>(MenuDataSourceImpl(getIt<DioSettings>().dio));
   getIt.registerSingleton<UserDataSourceImpl>(UserDataSourceImpl());
-getIt.registerSingleton<ProductDataSourceImpl>(ProductDataSourceImpl());
+  getIt.registerSingleton<ProductDataSourceImpl>(ProductDataSourceImpl());
+  getIt.registerSingleton<ZoneDataSourceImpl>(ZoneDataSourceImpl(dioSettings: getIt<DioSettings>()));
+  getIt.registerSingleton<TableDataSourceImpl>(TableDataSourceImpl());
   // Register your repositories here
   getIt.registerSingleton<MenuRepositoryImpl>(MenuRepositoryImpl(getIt<MenuDataSourceImpl>()));
   getIt.registerSingleton<UserRepositoryImpl>(UserRepositoryImpl(getIt.get<UserDataSourceImpl>()));
   getIt.registerSingleton<ProductRepository>(ProductRepositoryImpl(getIt<ProductDataSourceImpl>()));
+  getIt.registerSingleton<ZoneRepository>(ZoneRepositoryImpl(getIt<ZoneDataSourceImpl>()));
+  getIt.registerSingleton<TableRepository>(TableRepositoryImpl(getIt<TableDataSourceImpl>()));
   // Register your use cases here
   getIt.registerSingleton<GetMenuItemsUseCase>(GetMenuItemsUseCase(getIt<MenuRepositoryImpl>()));
   getIt.registerSingleton<LoginUseCase>(LoginUseCase(getIt.get<UserRepositoryImpl>()));
+  getIt.registerSingleton<GetZonesUseCase>(GetZonesUseCase(getIt.get<ZoneRepository>()));
   getIt.registerSingleton<GetProductByMenuIdUseCase>(GetProductByMenuIdUseCase(getIt<ProductRepository>()));
+  getIt.registerSingleton<GetTableByWaitressIdUseCase>(GetTableByWaitressIdUseCase(getIt<TableRepository>()));
 
 }
 

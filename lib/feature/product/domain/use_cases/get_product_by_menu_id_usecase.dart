@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:tezz_cafe/core/error/failures.dart';
 import 'package:tezz_cafe/core/usecases/usecase.dart';
-import 'package:tezz_cafe/feature/menu/domain/repositories/menu_repository.dart';
 import 'package:tezz_cafe/feature/product/data/models/product_model.dart';
 import 'package:tezz_cafe/feature/product/domain/repositories/product_repository.dart';
 

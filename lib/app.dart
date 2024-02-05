@@ -1,10 +1,12 @@
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
+import 'package:tezz_cafe/core/utils/constants/api_constants.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/di/service_locator.dart';
 import 'package:tezz_cafe/feature/auth/domain/use_cases/login_use_case.dart';
 import 'package:tezz_cafe/feature/auth/presentation/manager/auth_bloc.dart';
+import 'package:tezz_cafe/feature/clients/domain/use_cases/get_zones_usecase.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
 import 'package:tezz_cafe/feature/menu/domain/use_cases/get_menu_items_use_case.dart';
 import 'package:tezz_cafe/feature/menu/presentation/manager/menu_bloc.dart';
@@ -21,7 +23,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<TabCubit>(create: (context) => TabCubit()),
-        BlocProvider(create: (context) => ClientTabBloc()),
+        BlocProvider(create: (context) => ClientTabBloc(getIt.get<GetZonesUseCase>())..add(GetZones(CafeConstants.cafe))..add(GetTablesByWaitress(waiterId: CafeConstants.waiter, cafeId: CafeConstants.cafe)),),
         BlocProvider(create: (context) => MenuBloc(getIt.get<GetMenuItemsUseCase>())..add(GetMenuItems())),
         BlocProvider(create: (context) => AuthBloc(getIt.get<LoginUseCase>())),
         BlocProvider(create: (context) => ProductBloc(getIt.get<GetProductByMenuIdUseCase>())),

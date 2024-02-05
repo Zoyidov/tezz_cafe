@@ -1,6 +1,5 @@
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 
 class PlaceActionWidget extends StatelessWidget {

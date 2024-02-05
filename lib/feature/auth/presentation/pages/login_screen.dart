@@ -1,17 +1,13 @@
-import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:tezz_cafe/core/common/dialogs/custom_dialog.dart';
 import 'package:tezz_cafe/core/common/dialogs/custom_snackbar.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/validators/validators.dart';
 import 'package:tezz_cafe/feature/auth/presentation/manager/auth_bloc.dart';
-import 'package:tezz_cafe/presentation/widgets/textfield.dart';
-import 'package:tezz_cafe/utils/colors/colors.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -35,7 +31,7 @@ class LoginScreen extends StatelessWidget {
           }
         },
         builder: (BuildContext context, AuthState state) {
-          return Padding(
+          return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,7 +59,7 @@ class LoginScreen extends StatelessWidget {
                       TextFormField(
                         controller: context.read<AuthBloc>().passwordController,
                         decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
+                            prefixIcon: const Icon(Icons.lock),
                             hintText: "Password",
                             suffixIcon: IconButton(
                                 onPressed: () => context.read<AuthBloc>().add(ChangePasswordEvent()),

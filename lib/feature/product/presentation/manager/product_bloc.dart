@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tezz_cafe/feature/product/data/models/product_model.dart';
@@ -16,7 +14,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<GetProductByMenuId>(_onGetProductByMenuId);
     on<ProductIncrement>(_onProductIncrement);
     on<ProductDecrement>(_onProductDecrement);
+    on<SetProductCount>(_onSetProductCount);
   }
+
+  void _onSetProductCount(SetProductCount event, Emitter<ProductState> emit) => emit(state.copyWith(count: 1));
 
   void _onProductIncrement(ProductIncrement event, Emitter<ProductState> emit) {
     emit(state.copyWith(count: state.count + 1));

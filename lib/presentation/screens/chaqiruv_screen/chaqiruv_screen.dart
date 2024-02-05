@@ -3,7 +3,7 @@ import 'package:tezz_cafe/presentation/screens/chaqiruv_screen/recieved.dart';
 import 'package:tezz_cafe/presentation/widgets/notification_container.dart';
 
 class ChaqiruvScreen extends StatefulWidget {
-  const ChaqiruvScreen({Key? key}) : super(key: key);
+  const ChaqiruvScreen({super.key});
 
   @override
   _ChaqiruvScreenState createState() => _ChaqiruvScreenState();

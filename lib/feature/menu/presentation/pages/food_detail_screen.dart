@@ -1,6 +1,5 @@
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
@@ -21,6 +20,7 @@ class FoodDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
+
         return Scaffold(
           appBar: AppBar(
             title: Text(product.title),

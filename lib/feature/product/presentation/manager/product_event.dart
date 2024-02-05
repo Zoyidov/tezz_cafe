@@ -2,7 +2,7 @@ part of 'product_bloc.dart';
 
 abstract class ProductEvent {}
 
-  class GetProductByMenuId extends ProductEvent {
+class GetProductByMenuId extends ProductEvent {
   final String menuId;
 
   GetProductByMenuId(this.menuId);
@@ -11,3 +11,5 @@ abstract class ProductEvent {}
 class ProductIncrement extends ProductEvent {}
 
 class ProductDecrement extends ProductEvent {}
+
+class SetProductCount extends ProductEvent {}

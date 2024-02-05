@@ -3,7 +3,7 @@ import 'package:tezz_cafe/presentation/screens/yangi_buyurtma_screen/buyurtma_de
 import 'package:tezz_cafe/presentation/widgets/notification_container.dart';
 
 class YangiBuyurtmaScreen extends StatelessWidget {
-  const YangiBuyurtmaScreen({Key? key}) : super(key: key);
+  const YangiBuyurtmaScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
