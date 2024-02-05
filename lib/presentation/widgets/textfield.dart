@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
-import 'package:tezz_cafe/utils/colors/colors.dart';
 
 class GlobalTextField extends StatefulWidget {
   final String hintText;
@@ -13,14 +12,14 @@ class GlobalTextField extends StatefulWidget {
   final ValueChanged? onChanged;
 
   const GlobalTextField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.keyboardType,
     required this.textInputAction,
     this.prefixIcon,
     required this.caption,
     this.controller, this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   _GlobalTextFieldState createState() => _GlobalTextFieldState();
@@ -88,19 +87,19 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
             )
                 : null,
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.grey, width: 1),
+              borderSide: const BorderSide(color: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide:  BorderSide(color: AppColors.black, width: 1),
+              borderSide:  BorderSide(color: AppColors.black),
               borderRadius: BorderRadius.circular(8),
             ),
             errorBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.red, width: 1),
+              borderSide: const BorderSide(color: Colors.red),
               borderRadius: BorderRadius.circular(8),
             ),
             border: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.grey, width: 1),
+              borderSide: const BorderSide(color: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
             filled: true,

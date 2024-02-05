@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +19,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     on<ScrollUp>(_onScrollUp);
     on<ScrollDown>(_onScrollDown);
     on<GetMenuItems>(_onGetMenuItems);
+
     scrollController.addListener(_onScroll);
   }
 
@@ -43,13 +43,11 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   void _onScroll() {
     // when scroll up emit visible false
     if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
-      print('forward');
       // Scroll down, show FloatingActionButton
       if (!state.isVisible) {
         add(ScrollUp());
       }
     } else if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-      print('reverse');
       // Scroll up, hide FloatingActionButton
       if (state.isVisible) {
         add(ScrollDown());

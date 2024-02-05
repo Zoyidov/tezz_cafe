@@ -1,11 +1,12 @@
-import 'dart:math';
-
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
+import 'package:tezz_cafe/feature/clients/data/models/table_model.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 
@@ -20,11 +21,12 @@ class _ClientsScreenState extends State<ClientsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        // context.pushNamed(RouteNames.menu);
-        print('change');
-        context.read<TabCubit>().changeMessageState(true);
-      }, child: const Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // context.pushNamed(RouteNames.menu);
+            context.read<TabCubit>().changeMessageState(true);
+          },
+          child: const Icon(Icons.add)),
       appBar: const ClientsAppBar(),
       body: const ClientsPageView(),
     );
@@ -37,11 +39,7 @@ class ClientsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: BlocBuilder<ClientTabBloc, ClientTabState>(
-        builder: (context, state) {
-          return const ToggleButtonsContainer();
-        },
-      ),
+      title: const ToggleButtonsContainer(),
     );
   }
 
@@ -55,16 +53,57 @@ class ToggleButtonsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final clientTabBloc = context.read<ClientTabBloc>();
-    final width = context.width * 0.9 / max(1, clientTabBloc.state.isSelected.length);
+
+    // final width = context.width * 0.9 / max(1, clientTabBloc.state.isSelected.length);
+    return BlocBuilder<ClientTabBloc, ClientTabState>(
+      builder: (context, state) {
+        if (state.zoneStatus.isInProgress) {
+          return const Skeletonizer(child: ZoneShimmerWidget());
+        } else if (state.zones.isEmpty && state.zoneStatus.isSuccess) {
+          return const Text('Zonalar mavjud emas');
+        }
+
+        return Container(
+          height: 40,
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: ToggleButtons(
+
+              borderRadius: BorderRadius.circular(10),
+              constraints: BoxConstraints(
+                  maxWidth: context.width * 0.3, minWidth: context.width * 0.3, minHeight: 36, maxHeight: 36),
+              isSelected: context.watch<ClientTabBloc>().state.isSelected,
+              onPressed: (int index) => clientTabBloc.add(TabChanged(index: index)),
+              children: state.zones.map((e) => Text(e.title)).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class ZoneShimmerWidget extends StatelessWidget {
+  const ZoneShimmerWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final mockValues = [false, false, false];
     return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(color: AppColors.toggleSelectedColor, borderRadius: BorderRadius.circular(8)),
       height: 40,
-      child: ToggleButtons(
-        constraints: BoxConstraints(maxWidth: width, minWidth: width, minHeight: width, maxHeight: width),
-        isSelected: context.watch<ClientTabBloc>().state.isSelected,
-        onPressed: (int index) => clientTabBloc.add(TabChanged(index: index)),
-        children: clientTabBloc.tabs.map((e) => Text(e)).toList(),
+      alignment: Alignment.center,
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        child: ToggleButtons(
+          borderRadius: BorderRadius.circular(10),
+          constraints: BoxConstraints(
+              maxWidth: context.width * 0.3, minWidth: context.width * 0.3, minHeight: 36, maxHeight: 36),
+          isSelected: mockValues,
+          children: mockValues.map((e) => const Text('Teressa')).toList(),
+        ),
       ),
     );
   }
@@ -77,29 +116,53 @@ class ClientsPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final clientTabBloc = context.read<ClientTabBloc>();
 
-    return PageView.builder(
-      itemCount: 3,
-      controller: clientTabBloc.pageController,
-      onPageChanged: (value) => clientTabBloc.add(PageChanged(index: value)),
-      itemBuilder: (context, index) {
-        return const ClientsListView();
+    return BlocBuilder<ClientTabBloc, ClientTabState>(
+      builder: (context, state) {
+        print(state.clientTabIndex);
+        if (state.tableStatus.isInProgress) {
+          return const CircularProgressIndicator();
+        }
+        if (state.tables.isEmpty && state.tableStatus.isSuccess) {
+          return const Text('Stollar mavjud emas');
+        }
+        return PageView.builder(
+          itemCount: clientTabBloc.state.zones.length,
+          controller: clientTabBloc.pageControllerActive,
+          onPageChanged: (value) => clientTabBloc.add(PageChanged(index: value)),
+          itemBuilder: (context, index) {
+            return ClientsListView(index: index);
+          },
+        );
       },
     );
   }
 }
 
 class ClientsListView extends StatelessWidget {
-  const ClientsListView({super.key});
+  const ClientsListView({super.key, required this.index});
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(20),
-      itemBuilder: (context, index) {
-        return const ClientListItemActive();
+    return BlocBuilder<ClientTabBloc, ClientTabState>(
+      builder: (context, state) {
+        final List<TableModel> filteredTables =
+            state.tables.where((element) => state.zones[index].id == element.zoneId && element.active).toList();
+        if (filteredTables.isEmpty) {
+          return Center(
+            child: Text('Stollar topilmadi',style: context.titleLarge,textAlign: TextAlign.center),
+          );
+        }
+        return ListView.separated(
+          padding: const EdgeInsets.all(20),
+          itemBuilder: (context, index) {
+            return const ClientListItemActive();
+          },
+          separatorBuilder: (context, index) => const Gap(12),
+          itemCount: filteredTables.length,
+        );
       },
-      separatorBuilder: (context, index) => const Gap(12),
-      itemCount: 10,
     );
   }
 }

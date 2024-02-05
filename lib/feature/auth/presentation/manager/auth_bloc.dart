@@ -3,9 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:tezz_cafe/core/utils/di/service_locator.dart';
-import 'package:tezz_cafe/core/utils/local_storage/storage_keys.dart';
-import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
 import 'package:tezz_cafe/feature/auth/domain/use_cases/login_use_case.dart';
 
 part 'auth_event.dart';

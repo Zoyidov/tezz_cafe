@@ -17,7 +17,7 @@ class TabState {
   final bool isActive;
 
   TabState({
-    this.index = 0,
+    this.index = 2,
     this.isActive = false,
   });
 
