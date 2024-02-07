@@ -3,11 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 import 'package:tezz_cafe/core/common/dialogs/custom_dialog.dart';
-import 'package:tezz_cafe/core/common/dialogs/custom_snackbar.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_keys.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
 import 'package:tezz_cafe/core/utils/validators/validators.dart';
 import 'package:tezz_cafe/feature/auth/presentation/manager/auth_bloc.dart';
+import 'package:awesome_extensions/awesome_extensions.dart';
+import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
+import 'package:tezz_cafe/feature/waitress/presentation/manager/waitress_bloc.dart';
+import 'package:toastification/toastification.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -16,15 +21,38 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) async {
           if (state.status.isSuccess) {
+            context.read<WaitressBloc>().add(GetWaitressEvent(state.token!));
+            context.read<ClientTabBloc>().add(GetZones(StorageRepository.getString(StorageKeys.cafeId)));
+            context.read<ClientTabBloc>().add(GetTablesByCafe(StorageRepository.getString(StorageKeys.cafeId)));
+
             Navigator.pop(context);
+            toastification.show(
+              context: context,
+              type: ToastificationType.success,
+              style: ToastificationStyle.flat,
+              title: const Text('Muvaffaqiyatli'),
+              autoCloseDuration: const Duration(seconds: 5),
+              alignment: Alignment.bottomCenter,
+              description: const Text('Xush kelibsiz'),
+            );
             Navigator.of(context).pushNamedAndRemoveUntil(RouteNames.home, (route) => false);
           }
           if (state.status.isFailure) {
-            Navigator.pop(context);
-            CustomSnackBar.showErrorMessage(context, state.error);
+            context.pop();
+            toastification.show(
+              context: context,
+              type: ToastificationType.error,
+              style: ToastificationStyle.fillColored,
+              title: const Text('Xatolik'),
+              autoCloseDuration: const Duration(seconds: 5),
+              alignment: Alignment.bottomCenter,
+              description: Text(state.error),
+            );
+            // CustomSnackBar.showErrorMessage(context, state.error);
           }
           if (state.status.isInProgress) {
             CustomDialog.showLoadingDialog(context);
@@ -50,10 +78,9 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       TextFormField(
                         controller: context.read<AuthBloc>().usernameController,
-                        decoration: const InputDecoration(prefixIcon: Icon(Icons.email), hintText: "Email"),
-                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(prefixIcon: Icon(Icons.email), hintText: "Username"),
                         textInputAction: TextInputAction.next,
-                        validator: AppValidators.validateEmail,
+                        validator: AppValidators.validateUsername,
                       ),
                       const Gap(16),
                       TextFormField(
@@ -72,6 +99,19 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                // add checkbox for remaind me
+                const Gap(16),
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Checkbox(
+                      value: state.isChecked,
+                      onChanged: (value) {
+                        context.read<AuthBloc>().add(ChangeCheckedEvent());
+                      }),
+                  Text(
+                    'Eslab qolish',
+                    style: context.bodyLarge?.copyWith(color: AppColors.black),
+                  ),
+                ]),
                 const Gap(24),
                 FilledButton(
                     onPressed: () {

@@ -33,7 +33,7 @@ mixin _$TableModel {
   @JsonKey(name: "zone_id")
   String get zoneId => throw _privateConstructorUsedError;
   @JsonKey(name: "ofisiant_id")
-  String get ofisiantId => throw _privateConstructorUsedError;
+  String? get ofisiantId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,7 +54,7 @@ abstract class $TableModelCopyWith<$Res> {
       @JsonKey(name: "active") bool active,
       @JsonKey(name: "kafe_id") String kafeId,
       @JsonKey(name: "zone_id") String zoneId,
-      @JsonKey(name: "ofisiant_id") String ofisiantId});
+      @JsonKey(name: "ofisiant_id") String? ofisiantId});
 }
 
 /// @nodoc
@@ -76,7 +76,7 @@ class _$TableModelCopyWithImpl<$Res, $Val extends TableModel>
     Object? active = null,
     Object? kafeId = null,
     Object? zoneId = null,
-    Object? ofisiantId = null,
+    Object? ofisiantId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -103,10 +103,10 @@ class _$TableModelCopyWithImpl<$Res, $Val extends TableModel>
           ? _value.zoneId
           : zoneId // ignore: cast_nullable_to_non_nullable
               as String,
-      ofisiantId: null == ofisiantId
+      ofisiantId: freezed == ofisiantId
           ? _value.ofisiantId
           : ofisiantId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -126,7 +126,7 @@ abstract class _$$TableModelImplCopyWith<$Res>
       @JsonKey(name: "active") bool active,
       @JsonKey(name: "kafe_id") String kafeId,
       @JsonKey(name: "zone_id") String zoneId,
-      @JsonKey(name: "ofisiant_id") String ofisiantId});
+      @JsonKey(name: "ofisiant_id") String? ofisiantId});
 }
 
 /// @nodoc
@@ -146,7 +146,7 @@ class __$$TableModelImplCopyWithImpl<$Res>
     Object? active = null,
     Object? kafeId = null,
     Object? zoneId = null,
-    Object? ofisiantId = null,
+    Object? ofisiantId = freezed,
   }) {
     return _then(_$TableModelImpl(
       id: null == id
@@ -173,10 +173,10 @@ class __$$TableModelImplCopyWithImpl<$Res>
           ? _value.zoneId
           : zoneId // ignore: cast_nullable_to_non_nullable
               as String,
-      ofisiantId: null == ofisiantId
+      ofisiantId: freezed == ofisiantId
           ? _value.ofisiantId
           : ofisiantId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -191,7 +191,7 @@ class _$TableModelImpl implements _TableModel {
       @JsonKey(name: "active") required this.active,
       @JsonKey(name: "kafe_id") required this.kafeId,
       @JsonKey(name: "zone_id") required this.zoneId,
-      @JsonKey(name: "ofisiant_id") required this.ofisiantId});
+      @JsonKey(name: "ofisiant_id") this.ofisiantId});
 
   factory _$TableModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TableModelImplFromJson(json);
@@ -216,7 +216,7 @@ class _$TableModelImpl implements _TableModel {
   final String zoneId;
   @override
   @JsonKey(name: "ofisiant_id")
-  final String ofisiantId;
+  final String? ofisiantId;
 
   @override
   String toString() {
@@ -266,7 +266,7 @@ abstract class _TableModel implements TableModel {
           @JsonKey(name: "active") required final bool active,
           @JsonKey(name: "kafe_id") required final String kafeId,
           @JsonKey(name: "zone_id") required final String zoneId,
-          @JsonKey(name: "ofisiant_id") required final String ofisiantId}) =
+          @JsonKey(name: "ofisiant_id") final String? ofisiantId}) =
       _$TableModelImpl;
 
   factory _TableModel.fromJson(Map<String, dynamic> json) =
@@ -292,7 +292,7 @@ abstract class _TableModel implements TableModel {
   String get zoneId;
   @override
   @JsonKey(name: "ofisiant_id")
-  String get ofisiantId;
+  String? get ofisiantId;
   @override
   @JsonKey(ignore: true)
   _$$TableModelImplCopyWith<_$TableModelImpl> get copyWith =>

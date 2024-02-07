@@ -1,11 +1,13 @@
-
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_keys.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
 import 'package:tezz_cafe/feature/clients/data/models/table_model.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
 import 'package:tezz_cafe/feature/clients/presentation/pages/mijojzlar_screen.dart';
@@ -94,20 +96,38 @@ class ClientsPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final clientTabBloc = context.read<ClientTabBloc>();
-
+    // clientTabBloc.pageControllerNoActive.jumpToPage(clientTabBloc.state.noActiveClientTabIndex);
     return BlocBuilder<ClientTabBloc, ClientTabState>(
       builder: (context, state) {
-        print(state.noActiveClientTabIndex);
         if (state.tableStatus.isInProgress) {
-          return const CircularProgressIndicator();
+          return Skeletonizer(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(20),
+              itemBuilder: (context, index) {
+                // final table = filteredTables[index];
+                return const ClientListItem(
+                    table: TableModel(
+                        id: 'id',
+                        stolNomi: 'stolNomi',
+                        qr: 'qr',
+                        active: false,
+                        kafeId: 'kafeId',
+                        zoneId: 'zoneId',
+                        ofisiantId: 'ofisiantId'));
+              },
+              separatorBuilder: (context, index) => const Gap(12),
+              itemCount: 10,
+            ),
+          );
         }
-        if (state.tables.isEmpty && state.tableStatus.isSuccess) {
-          return const Text('Stollar mavjud emas');
-        }
+        // if (state.tables.isEmpty && state.tableStatus.isSuccess) {
+        //   return const Center(child: Text('Stollar mavjud emas'));
+        // }
         return PageView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: clientTabBloc.state.zones.length,
           controller: clientTabBloc.pageControllerNoActive,
-          onPageChanged: (value) => clientTabBloc.add(PageChangedNoActive(index: value)),
+          // onPageChanged: (value) => clientTabBloc.add(PageChangedNoActive(index: value)),
           itemBuilder: (context, index) {
             return ClientsListView(index: index);
           },
@@ -130,7 +150,11 @@ class ClientsListView extends StatelessWidget {
             state.tables.where((element) => state.zones[index].id == element.zoneId && !element.active).toList();
         if (filteredTables.isEmpty) {
           return Center(
-            child: Text('Faol bo`lmagan stollar topilmadi',style: context.titleLarge,textAlign: TextAlign.center,),
+            child: Text(
+              'Faol bo`lmagan stollar topilmadi',
+              style: context.titleLarge,
+              textAlign: TextAlign.center,
+            ),
           );
         }
         return ListView.separated(
@@ -154,17 +178,71 @@ class ClientListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: AppColors.textFieldColor,
-      ),
-      child:  Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ClientIcon(isActive: table.active, table: table),
-        ],
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            final TextEditingController codeController = TextEditingController();
+            return AlertDialog(
+              backgroundColor: AppColors.containerColor,
+              surfaceTintColor: AppColors.containerColor,
+              title: Text(table.stolNomi),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Tasdiqlash kodini kiriting', style: context.titleMedium?.copyWith(color: AppColors.black)),
+                  const Gap(12),
+                  TextFormField(
+                    controller: codeController,
+                    decoration: const InputDecoration(hintText: '1234'),
+                    maxLength: 4,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Tasdiqlash kodini kiriting';
+                      }
+                      if (value.length != 4) {
+                        return 'Tasdiqlash kodini to\'ldiring (4 ta raqam)';
+                      }
+                      return null;
+                    },
+                  ),
+                  const Gap(12),
+                  FilledButton(
+                      onPressed: () {
+                        if (codeController.text.length == 4) {
+                          final waitressToken = StorageRepository.getString(StorageKeys.token);
+                          Navigator.of(context).pop();
+                          context.read<ClientTabBloc>().add(UpdateTableActive(
+                              tableId: table.id,
+                              waiterToken: waitressToken,
+                              cafeId: table.kafeId,
+                              code: codeController.text));
+                        }
+                      },
+                      child: const Text('Tasdiqlash')),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.textFieldColor,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ClientIcon(isActive: table.active, table: table),
+          ],
+        ),
       ),
     );
   }
@@ -172,7 +250,8 @@ class ClientListItem extends StatelessWidget {
 
 class ClientIcon extends StatelessWidget {
   const ClientIcon({super.key, this.isActive = true, required this.table});
-final TableModel table;
+
+  final TableModel table;
   final bool isActive;
 
   @override
@@ -219,6 +298,3 @@ class CircleIcon extends StatelessWidget {
 //     );
 //   }
 // }
-
-
-

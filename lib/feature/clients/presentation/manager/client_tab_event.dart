@@ -38,3 +38,26 @@ class GetTablesByWaitress extends ClientTabEvent {
 
   GetTablesByWaitress({required this.waiterId, required this.cafeId});
 }
+
+class GetTablesByCafe extends ClientTabEvent {
+  final String cafeId;
+
+  GetTablesByCafe(this.cafeId);
+}
+
+class UpdateTableActive extends ClientTabEvent {
+  final String code;
+  final String tableId;
+  final String waiterToken;
+  final String cafeId;
+
+  UpdateTableActive({required this.code, required this.tableId, required this.waiterToken, required this.cafeId});
+}
+
+class LoginCode extends ClientTabEvent {
+  final String tableId;
+  final String waiterToken;
+  final String cafeId;
+
+  LoginCode({required this.tableId, required this.waiterToken, required this.cafeId});
+}

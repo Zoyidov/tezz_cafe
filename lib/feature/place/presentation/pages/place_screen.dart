@@ -1,11 +1,14 @@
 import 'package:awesome_extensions/awesome_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/constants/font_style.dart';
 import 'package:tezz_cafe/core/utils/constants/image_strings.dart';
 import 'package:tezz_cafe/feature/clients/presentation/pages/mijojzlar_screen.dart';
+import 'package:tezz_cafe/feature/menu/presentation/manager/menu_bloc.dart';
+import 'package:tezz_cafe/feature/waitress/presentation/manager/waitress_bloc.dart';
 
 class PlaceScreen extends StatelessWidget {
   const PlaceScreen({super.key});
@@ -24,6 +27,9 @@ class PlaceScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          context
+              .read<MenuBloc>()
+              .add(GetMenuItems(context.read<WaitressBloc>().state.waitress?.ofisiant.kafeId ?? ""));
           context.pushNamed(RouteNames.menu);
         },
         child: const Icon(Icons.add),
@@ -38,10 +44,9 @@ class PlaceScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.textFieldColor
-                          // border: Border.all()
-                          ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.textFieldColor
+                      // border: Border.all()
+                      ),
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -9,12 +9,14 @@ class ClientTabState {
   final List<ZoneModel> zones;
   final List<TableModel> tables;
   final FormzSubmissionStatus zoneStatus;
+  final FormzSubmissionStatus updateStatus;
 
   final FormzSubmissionStatus tableStatus;
 
   const ClientTabState({
     this.tableStatus = FormzSubmissionStatus.initial,
     this.zoneStatus = FormzSubmissionStatus.initial,
+    this.updateStatus = FormzSubmissionStatus.initial,
     this.clientTabIndex = 0,
     this.noActiveClientTabIndex = 0,
     this.isSelected = const [],
@@ -33,6 +35,7 @@ class ClientTabState {
     List<ZoneModel>? zones,
     List<TableModel>? tables,
     FormzSubmissionStatus? zoneStatus,
+    FormzSubmissionStatus? updateStatus,
     FormzSubmissionStatus? tableStatus,
   }) {
     return ClientTabState(
@@ -44,6 +47,7 @@ class ClientTabState {
       zones: zones ?? this.zones,
       tables: tables ?? this.tables,
       zoneStatus: zoneStatus ?? this.zoneStatus,
+      updateStatus: updateStatus ?? this.updateStatus,
       tableStatus: tableStatus ?? this.tableStatus,
     );
   }

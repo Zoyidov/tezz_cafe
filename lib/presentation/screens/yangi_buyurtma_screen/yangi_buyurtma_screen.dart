@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tezz_cafe/core/route/ruotes.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_keys.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
+import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
+import 'package:tezz_cafe/feature/orders/presentation/manager/order_bloc.dart';
+import 'package:tezz_cafe/feature/waitress/presentation/manager/waitress_bloc.dart';
 import 'package:tezz_cafe/presentation/screens/yangi_buyurtma_screen/buyurtma_detail_screen.dart';
 import 'package:tezz_cafe/presentation/widgets/notification_container.dart';
 
@@ -8,12 +15,25 @@ class YangiBuyurtmaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          heroTag: 's',
+          onPressed: () {
+            context.read<OrderBloc>().add(GetOrdersEvent());
+            print(context.read<OrderBloc>().state.status);
+            print(context.read<OrderBloc>().state.message);
+          }),
       appBar: AppBar(
-        scrolledUnderElevation: 0,
-        title: const Text(
-          "Faol Buyurtma",
-          style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
-        ),
+        // scrolledUnderElevation: 0,
+        title: const Text("Faol Buyurtma"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                StorageRepository.deleteBool(StorageKeys.isAuth);
+                StorageRepository.deleteString(StorageKeys.token);
+                Navigator.of(context).pushNamedAndRemoveUntil(RouteNames.login, (route) => false);
+              },
+              icon: Icon(Icons.logout))
+        ],
       ),
       body: ListView.builder(
         shrinkWrap: true,

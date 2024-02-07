@@ -23,7 +23,7 @@ class ZoneDataSourceImpl implements ZoneDataSource {
       if (response.statusCode == 200) {
         return List<ZoneModel>.from(response.data["data"].map((x) => ZoneModel.fromJson(x)));
       }
-      throw ServerFailure("Xatolik yuz berdi. Status code: ${response.statusCode}");
+      throw StatusFailure("Xatolik yuz berdi. Status code: ${response.statusCode}");
     } on DioException catch (e) {
       handleDioException(e);
       throw UnknownFailure('Unknown error: ${e.message}');

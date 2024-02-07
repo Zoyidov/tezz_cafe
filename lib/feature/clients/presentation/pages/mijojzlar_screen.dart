@@ -74,7 +74,10 @@ class ToggleButtonsContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               constraints: BoxConstraints(
                   maxWidth: context.width * 0.3, minWidth: context.width * 0.3, minHeight: 36, maxHeight: 36),
-              isSelected: context.watch<ClientTabBloc>().state.isSelected,
+              isSelected: context
+                  .watch<ClientTabBloc>()
+                  .state
+                  .isSelected,
               onPressed: (int index) => clientTabBloc.add(TabChanged(index: index)),
               children: state.zones.map((e) => Text(e.title)).toList(),
             ),
@@ -118,17 +121,24 @@ class ClientsPageView extends StatelessWidget {
 
     return BlocBuilder<ClientTabBloc, ClientTabState>(
       builder: (context, state) {
-        print(state.clientTabIndex);
         if (state.tableStatus.isInProgress) {
-          return const CircularProgressIndicator();
+          return Skeletonizer(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(20),
+              itemBuilder: (context, index) {
+                return const ClientListItemActive();
+              },
+              separatorBuilder: (context, index) => const Gap(12),
+              itemCount: 10,
+            ),
+          );
         }
-        if (state.tables.isEmpty && state.tableStatus.isSuccess) {
-          return const Text('Stollar mavjud emas');
-        }
+
         return PageView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: clientTabBloc.state.zones.length,
           controller: clientTabBloc.pageControllerActive,
-          onPageChanged: (value) => clientTabBloc.add(PageChanged(index: value)),
+          // onPageChanged: (value) => clientTabBloc.add(PageChanged(index: value)),
           itemBuilder: (context, index) {
             return ClientsListView(index: index);
           },
@@ -146,12 +156,13 @@ class ClientsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ClientTabBloc, ClientTabState>(
+
       builder: (context, state) {
         final List<TableModel> filteredTables =
-            state.tables.where((element) => state.zones[index].id == element.zoneId && element.active).toList();
+        state.tables.where((element) => state.zones[index].id == element.zoneId && element.active).toList();
         if (filteredTables.isEmpty) {
           return Center(
-            child: Text('Stollar topilmadi',style: context.titleLarge,textAlign: TextAlign.center),
+            child: Text('Stollar topilmadi', style: context.titleLarge, textAlign: TextAlign.center),
           );
         }
         return ListView.separated(

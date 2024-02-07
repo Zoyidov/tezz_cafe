@@ -7,6 +7,7 @@ import 'package:tezz_cafe/feature/menu/presentation/pages/menu_screen.dart';
 import 'package:tezz_cafe/feature/place/presentation/pages/place_screen.dart';
 import 'package:tezz_cafe/feature/auth/presentation/pages/login_screen.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/pages/tab_box.dart';
+import 'package:tezz_cafe/feature/splash/presentation/pages/splash_screen.dart';
 
 class RouteNames {
   static const String splash = '/';
@@ -23,7 +24,7 @@ class AppRoutes {
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteNames.splash:
-        return MaterialPageRoute(builder: (context) => const TabBox());
+        return MaterialPageRoute(builder: (context) => const SplashScreen());
       case RouteNames.login:
         return MaterialPageRoute(builder: (context) => const LoginScreen());
       case RouteNames.home:

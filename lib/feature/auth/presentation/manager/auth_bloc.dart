@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:tezz_cafe/app.dart';
+import 'package:tezz_cafe/core/utils/device/device_utility.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_keys.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
 import 'package:tezz_cafe/feature/auth/domain/use_cases/login_use_case.dart';
 
 part 'auth_event.dart';
@@ -18,31 +22,59 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final TextEditingController passwordController = TextEditingController();
 
   AuthBloc(this.loginUseCase) : super(const AuthState()) {
+    on<AuthInitial>(_onAuthInitial);
     on<AuthLoginEvent>(_onLogin);
     on<ChangePasswordEvent>(_onChangePassword);
+    on<ChangeCheckedEvent>(_onChangeChecked);
   }
 
-  void _onLogin(AuthLoginEvent event, Emitter<AuthState> emit) async {
-    // TODO: Add validation
-    // if (!formKey.currentState!.validate()) {
-    //   return;
-    // }
+  void _onAuthInitial(AuthInitial event, Emitter<AuthState> emit) async {
+    final remember = StorageRepository.getBool(StorageKeys.rememberMe);
+    if (remember) {
+      final username = StorageRepository.getString(StorageKeys.rememberUsername);
+      final password = StorageRepository.getString(StorageKeys.rememberPassword);
+      usernameController.text = username;
+      passwordController.text = password;
+      emit(state.copyWith(isChecked: remember, status: FormzSubmissionStatus.initial));
+    }
+  }
 
-    // TODO: Add loading
-    // emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+  void _onChangeChecked(ChangeCheckedEvent event, Emitter<AuthState> emit) {
+    emit(state.copyWith(isChecked: !state.isChecked, status: FormzSubmissionStatus.initial));
+  }
 
-    // TODO: Remove this after testing
-    emit(state.copyWith(status: FormzSubmissionStatus.success));
+  Future<void> _onLogin(AuthLoginEvent event, Emitter<AuthState> emit) async {
+    TDeviceUtils.hideKeyboard(navigatorKey.currentContext!);
 
-    // final result =
-    //     await loginUseCase.execute(LoginParams(username: usernameController.text, password: passwordController.text));
-    // result.fold(
-    //   (failure) => emit(state.copyWith(status: FormzSubmissionStatus.failure, error: failure.message)),
-    //   (token) {
-    //     StorageRepository.putString(StorageKeys.token, token);
-    //     emit(state.copyWith(status: FormzSubmissionStatus.success, token: token));
-    //   },
-    // );
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    if (state.isChecked) {
+      await StorageRepository.putBool(StorageKeys.rememberMe, state.isChecked);
+      await StorageRepository.putString(StorageKeys.rememberUsername, usernameController.text.trim());
+      await StorageRepository.putString(StorageKeys.rememberPassword, passwordController.text.trim());
+    } else {
+      StorageRepository.deleteBool(StorageKeys.rememberMe);
+    }
+
+    final result =
+        await loginUseCase.execute(LoginParams(username: usernameController.text, password: passwordController.text));
+    result.fold(
+      (failure) async {
+        emit(state.copyWith(status: FormzSubmissionStatus.failure, error: failure.message));
+      },
+      (token) async {
+        print("${token}token");
+        emit(state.copyWith(status: FormzSubmissionStatus.success, token: token));
+        await StorageRepository.putString(StorageKeys.token, token);
+        await StorageRepository.putBool(StorageKeys.isAuth, true);
+        print(StorageRepository.getBool(StorageKeys.isAuth));
+        print(StorageRepository.getString(StorageKeys.cafeId));
+
+      },
+    );
   }
 
   void _onChangePassword(ChangePasswordEvent event, Emitter<AuthState> emit) {

@@ -10,11 +10,13 @@ class MenuRepositoryImpl implements MenuRepository {
   MenuRepositoryImpl(this.menuDataSource);
 
   @override
-  Future<Either<Failure, List<MenuModel>>> getMenuItems() async {
+  Future<Either<Failure, List<MenuModel>>> getMenuItems(String cafeId) async {
     try {
-      final menuItems = await menuDataSource.getMenuItems();
+      final menuItems = await menuDataSource.getMenuItems(cafeId);
+      print('here');
       return Right(menuItems);
     } on Failure catch (failure) {
+      print('error');
       return Left(failure);
     }
   }

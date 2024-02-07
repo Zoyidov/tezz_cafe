@@ -12,13 +12,13 @@ import 'package:tezz_cafe/feature/menu/domain/repositories/menu_repository.dart'
 
 class NoParams {}
 
-class GetMenuItemsUseCase implements UseCase<NoParams, List<MenuModel>> {
+class GetMenuItemsUseCase implements UseCase<String, List<MenuModel>> {
   final MenuRepository menuRepository;
 
   GetMenuItemsUseCase(this.menuRepository);
 
   @override
-  Future<Either<Failure, List<MenuModel>>> execute(NoParams params) async {
-    return await menuRepository.getMenuItems();
+  Future<Either<Failure, List<MenuModel>>> execute(String cafeId) async {
+    return await menuRepository.getMenuItems(cafeId);
   }
 }
