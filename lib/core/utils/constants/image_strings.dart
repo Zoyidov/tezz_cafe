@@ -17,5 +17,6 @@ class AppImages {
   static const String food2 = 'assets/images/Rectangle 24847 (2).png';
   static const String imageNotFound = 'assets/images/not_found_image.png';
   static const String foodImage = "assets/images/food.png";
+  static const String appIcon = "assets/images/photo_2024-02-06_00-44-22.jpg";
 
 }

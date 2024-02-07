@@ -20,7 +20,11 @@ class UserDataSourceImpl implements UserDataSource {
       if (response.statusCode == 200) {
         return response.data['token'] as String;
       }
-      throw const StatusFailure('Status code not 200');
+      if (response.statusCode == 404) {
+        throw const UserNotFoundFailure('Foydalavchi topilmadi');
+
+      }
+      throw  StatusFailure('Status code not ${response.statusCode}');
     } on DioException catch (e) {
       handleDioException(e);
       throw UnknownFailure('Unknown error: ${e.message}');

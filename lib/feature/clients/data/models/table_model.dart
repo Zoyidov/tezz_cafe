@@ -13,7 +13,7 @@ class TableModel with _$TableModel {
     @JsonKey(name: "active") required bool active,
     @JsonKey(name: "kafe_id") required String kafeId,
     @JsonKey(name: "zone_id") required String zoneId,
-    @JsonKey(name: "ofisiant_id") required String ofisiantId,
+    @JsonKey(name: "ofisiant_id")  String? ofisiantId,
   }) = _TableModel;
 
   factory TableModel.fromJson(Map<String, dynamic> json) => _$TableModelFromJson(json);

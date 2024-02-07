@@ -23,9 +23,10 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     scrollController.addListener(_onScroll);
   }
 
-  void _onGetMenuItems(MenuEvent event, Emitter<MenuState> emit) async {
+  void _onGetMenuItems(GetMenuItems event, Emitter<MenuState> emit) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    final result = await getMenuItemsUseCase.execute(NoParams());
+    final result = await getMenuItemsUseCase.execute(event.cafeId);
+
     result.fold(
       (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure, error: l.message)),
       (r) => emit(state.copyWith(status: FormzSubmissionStatus.success, menuItems: r)),

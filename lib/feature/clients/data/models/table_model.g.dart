@@ -14,7 +14,7 @@ _$TableModelImpl _$$TableModelImplFromJson(Map<String, dynamic> json) =>
       active: json['active'] as bool,
       kafeId: json['kafe_id'] as String,
       zoneId: json['zone_id'] as String,
-      ofisiantId: json['ofisiant_id'] as String,
+      ofisiantId: json['ofisiant_id'] as String?,
     );
 
 Map<String, dynamic> _$$TableModelImplToJson(_$TableModelImpl instance) =>

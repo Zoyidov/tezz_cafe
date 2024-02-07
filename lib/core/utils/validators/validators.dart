@@ -9,6 +9,13 @@ class AppValidators {
     return null;
   }
 
+  static String? validateUsername(String? value){
+    if (value == null || value.isEmpty) {
+      return 'Iltimos foydalanuvchi nomini kiriting';
+    }
+    return null;
+  }
+
   static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Iltimos parolni kiriting';

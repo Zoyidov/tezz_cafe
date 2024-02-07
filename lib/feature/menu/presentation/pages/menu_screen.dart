@@ -17,7 +17,7 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<MenuBloc>().add(GetMenuItems());
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Menu'),

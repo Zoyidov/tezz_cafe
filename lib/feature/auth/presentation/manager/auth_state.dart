@@ -5,12 +5,13 @@ class AuthState {
   final String? token;
   final String error;
   final bool isVisible;
-
+final bool isChecked;
   const AuthState({
     this.status = FormzSubmissionStatus.initial,
     this.token,
     this.error = '',
     this.isVisible = true,
+    this.isChecked = false,
   });
 
   AuthState copyWith({
@@ -18,12 +19,14 @@ class AuthState {
     String? token,
     String? error,
     bool? isVisible,
+    bool? isChecked,
   }) {
     return AuthState(
       status: status ?? this.status,
       token: token ?? this.token,
       error: error ?? this.error,
       isVisible: isVisible ?? this.isVisible,
+      isChecked: isChecked ?? this.isChecked,
     );
   }
 }

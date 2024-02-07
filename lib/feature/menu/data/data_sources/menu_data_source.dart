@@ -5,7 +5,7 @@ import 'package:tezz_cafe/feature/menu/data/models/menu_model.dart';
 import 'package:tezz_cafe/core/error/failures.dart'; // Import your failure classes
 
 abstract class MenuDataSource {
-  Future<List<MenuModel>> getMenuItems();
+  Future<List<MenuModel>> getMenuItems(String cafeId);
 }
 
 class MenuDataSourceImpl implements MenuDataSource {
@@ -14,13 +14,15 @@ class MenuDataSourceImpl implements MenuDataSource {
   MenuDataSourceImpl(this.dio);
 
   @override
-  Future<List<MenuModel>> getMenuItems() async {
+  Future<List<MenuModel>> getMenuItems(String cafeId) async {
     try {
-      final response = await dio.get(ApiConstants.menuAll);
+      print('cafe');
+      print(cafeId);
+      final response = await dio.get("${ApiConstants.menuAll}/$cafeId");
       if (response.statusCode == 200) {
         return List<MenuModel>.from(response.data['data'].map((item) => MenuModel.fromJson(item))).toList();
       }
-      throw const StatusFailure('Status code not 200');
+      throw StatusFailure('Failed to fetch menu items:Status code: ${response.statusCode}');
     } on DioException catch (e) {
       handleDioException(e);
       throw UnknownFailure('Unknown error: ${e.message}');

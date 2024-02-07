@@ -7,10 +7,10 @@ abstract class Failure {
   String toString() => message;
 }
 
-class ServerFailure extends Failure {
-  const ServerFailure(super.message);
+class DioFailure extends Failure {
+  final int? statuscode;
+  const DioFailure(super.message, this.statuscode);
 }
-
 class CacheFailure extends Failure {
   const CacheFailure(super.message);
 }
@@ -35,3 +35,8 @@ class StatusFailure extends Failure {
 class UnknownFailure extends Failure {
   const UnknownFailure(super.message);
 }
+
+class UserNotFoundFailure extends Failure {
+  const UserNotFoundFailure(super.message);
+}
+

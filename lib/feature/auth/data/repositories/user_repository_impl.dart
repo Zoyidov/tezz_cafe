@@ -13,6 +13,12 @@ class UserRepositoryImpl implements UserRepository {
     try {
       final response = await userDataSource.login(username: username, password: password);
       return Right(response);
+    } on StatusFailure {
+      return const Left(StatusFailure("Tarmoq xatoligi status code:"));
+    } on ParseFailure catch (e) {
+      return Left(ParseFailure('O`girishdagi xatolik: ${e.message}'));
+    } on NetworkFailure {
+      return const Left(NetworkFailure('Tarmoqda Internet mavjud emas'));
     } on Failure catch (e) {
       return Left(e);
     }
