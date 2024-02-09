@@ -8,14 +8,14 @@ part of 'zone_model.dart';
 
 _$ZoneModelImpl _$$ZoneModelImplFromJson(Map<String, dynamic> json) =>
     _$ZoneModelImpl(
-      id: json['_id'] as String,
-      title: json['title'] as String,
-      kafeId: json['kafe_id'] as String,
+      id: json['id'] as int,
+      name: json['name'] as String,
+      cafe: json['cafe'] as int,
     );
 
 Map<String, dynamic> _$$ZoneModelImplToJson(_$ZoneModelImpl instance) =>
     <String, dynamic>{
-      '_id': instance.id,
-      'title': instance.title,
-      'kafe_id': instance.kafeId,
+      'id': instance.id,
+      'name': instance.name,
+      'cafe': instance.cafe,
     };

@@ -89,7 +89,7 @@ class MenuScreen extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   context.pushNamed(RouteNames.category, arguments: menuItem);
-                  context.read<ProductBloc>().add(GetProductByMenuId(menuItem.id));
+                  context.read<ProductBloc>().add(GetProductByMenuId(menuItem.id.toString()));
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -115,7 +115,7 @@ class MenuScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Text(
-                        menuItem.title,
+                        menuItem.name,
                         style: context.headlineSmall
                             ?.copyWith(color: AppColors.black, fontWeight: FontWeight.w600, height: 1.25),
                       ),

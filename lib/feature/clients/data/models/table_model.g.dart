@@ -8,22 +8,20 @@ part of 'table_model.dart';
 
 _$TableModelImpl _$$TableModelImplFromJson(Map<String, dynamic> json) =>
     _$TableModelImpl(
-      id: json['_id'] as String,
-      stolNomi: json['stol_nomi'] as String,
-      qr: json['QR'] as String,
+      id: json['id'] as int,
+      number: json['number'] as String,
+      capacity: json['capacity'] as int,
       active: json['active'] as bool,
-      kafeId: json['kafe_id'] as String,
-      zoneId: json['zone_id'] as String,
-      ofisiantId: json['ofisiant_id'] as String?,
+      totalPrice: json['total_price'] as int,
+      zone: json['zone'] as int,
     );
 
 Map<String, dynamic> _$$TableModelImplToJson(_$TableModelImpl instance) =>
     <String, dynamic>{
-      '_id': instance.id,
-      'stol_nomi': instance.stolNomi,
-      'QR': instance.qr,
+      'id': instance.id,
+      'number': instance.number,
+      'capacity': instance.capacity,
       'active': instance.active,
-      'kafe_id': instance.kafeId,
-      'zone_id': instance.zoneId,
-      'ofisiant_id': instance.ofisiantId,
+      'total_price': instance.totalPrice,
+      'zone': instance.zone,
     };
