@@ -8,7 +8,7 @@ import 'package:tezz_cafe/feature/auth/data/data_sources/auth_datasource.dart';
 import 'package:tezz_cafe/feature/clients/data/models/table_model.dart';
 
 abstract class TableDataSource {
-  Future<List<TableModel>> getTableByWaitressId({required String waiterId, required String cafeId});
+  Future<List<TableModel>> getTableByWaitressId({required String cafeId});
 
   Future<List<TableModel>> getTablesByCafe({required String cafeId});
 
@@ -21,11 +21,11 @@ class TableDataSourceImpl implements TableDataSource {
   final dio = getIt<DioSettings>().dio;
 
   @override
-  Future<List<TableModel>> getTableByWaitressId({required String waiterId, required String cafeId}) async {
+  Future<List<TableModel>> getTableByWaitressId({required String cafeId}) async {
     try {
-      final response = await dio.get("stol/$cafeId/ofisiant/$waiterId");
+      final response = await dio.get("tables",queryParameters:{"cafe_id": cafeId});
       if (response.statusCode == 200) {
-        return List<TableModel>.from(response.data['data'].map((x) => TableModel.fromJson(x)));
+        return List<TableModel>.from(response.data.map((x) => TableModel.fromJson(x)));
       }
       throw const StatusFailure('Status code not 200');
     } on DioException catch (e) {

@@ -16,7 +16,7 @@ class ProductDataSourceImpl implements ProductDataSource {
   @override
   Future<List<ProductModel>> getProductByMenuId(String menuId) async {
     try {
-      final response = await dio.dio.get(ApiConstants.productAll + menuId);
+      final response = await dio.dio.get(ApiConstants.productAll,queryParameters: {'menu_id': menuId});
       if (response.statusCode == 200) {
         return List<ProductModel>.from((response.data['data'] as List).map((e) => ProductModel.fromJson(e)));
         // return (response.data as List).map((e) => ProductModel.fromJson(e)).toList();

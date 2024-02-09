@@ -14,9 +14,9 @@ class TableRepositoryImpl implements TableRepository {
 
   @override
   Future<Either<Failure, List<TableModel>>> getTableByWaitressId(
-      {required String waiterId, required String cafeId}) async {
+  {required String cafeId}) async {
     try {
-      final response = await tableDataSource.getTableByWaitressId(waiterId: waiterId, cafeId: cafeId);
+      final response = await tableDataSource.getTableByWaitressId(cafeId: cafeId);
       return Right(response);
     } on Failure catch (e) {
       return Left(e);

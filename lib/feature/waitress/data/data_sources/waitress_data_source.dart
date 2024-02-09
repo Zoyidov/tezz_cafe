@@ -1,15 +1,9 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:tezz_cafe/app.dart';
 import 'package:tezz_cafe/core/error/failures.dart';
-import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/api_constants.dart';
 import 'package:tezz_cafe/core/utils/di/dio_settings.dart';
 import 'package:tezz_cafe/core/utils/di/service_locator.dart';
-import 'package:tezz_cafe/core/utils/local_storage/storage_keys.dart';
-import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
 import 'package:tezz_cafe/feature/auth/data/data_sources/auth_datasource.dart';
 import 'package:tezz_cafe/feature/waitress/data/models/waitress_model.dart';
 
