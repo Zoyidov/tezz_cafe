@@ -8,6 +8,7 @@ import 'package:tezz_cafe/feature/auth/data/data_sources/auth_datasource.dart';
 import 'package:tezz_cafe/feature/clients/data/models/table_model.dart';
 
 abstract class TableDataSource {
+
   Future<List<TableModel>> getTableByWaitressId({required String cafeId});
 
   Future<List<TableModel>> getTablesByCafe({required String cafeId});
@@ -23,11 +24,11 @@ class TableDataSourceImpl implements TableDataSource {
   @override
   Future<List<TableModel>> getTableByWaitressId({required String cafeId}) async {
     try {
-      final response = await dio.get("tables",queryParameters:{"cafe_id": cafeId});
+      final response = await dio.get("tables/",queryParameters:{"cafe_id": cafeId});
       if (response.statusCode == 200) {
         return List<TableModel>.from(response.data.map((x) => TableModel.fromJson(x)));
       }
-      throw const StatusFailure('Status code not 200');
+      throw StatusFailure('Status code not 200 ${response.statusCode}');
     } on DioException catch (e) {
       handleDioException(e);
       throw UnknownFailure('Unknown error: ${e.message}');

@@ -4,7 +4,7 @@
 // const String tSecretAPIKey = "cwt_live_b2da6ds3df3e785v8ddc59198f7615ba";
 
 class ApiConstants {
-  static const String baseUrl = "https://cafe-system-production.up.railway.app/";
+  static const String baseUrl = "https://cafe-system-production.up.railway.app/api/";
   static const String login = "login";
   static const String menuAll = "menus";
   static const String productAll = "products";
