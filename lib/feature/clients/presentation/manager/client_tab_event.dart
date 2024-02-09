@@ -33,10 +33,9 @@ class GetZones extends ClientTabEvent {
 }
 
 class GetTablesByWaitress extends ClientTabEvent {
-  final String waiterId;
   final String cafeId;
 
-  GetTablesByWaitress({required this.waiterId, required this.cafeId});
+  GetTablesByWaitress({required this.cafeId});
 }
 
 class GetTablesByCafe extends ClientTabEvent {

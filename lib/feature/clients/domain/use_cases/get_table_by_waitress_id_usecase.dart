@@ -6,11 +6,9 @@ import 'package:tezz_cafe/feature/clients/domain/repositories/table_repo.dart';
 
 class TableWaitressParams {
   final String cafeId;
-  final String waiterId;
 
   const TableWaitressParams({
     required this.cafeId,
-    required this.waiterId,
   });
 }
 
@@ -21,6 +19,6 @@ class GetTableByWaitressIdUseCase extends UseCase<TableWaitressParams, List<Tabl
 
   @override
   Future<Either<Failure, List<TableModel>>> execute(TableWaitressParams params) {
-    return tableRepository.getTableByWaitressId(waiterId: params.waiterId, cafeId: params.cafeId);
+    return tableRepository.getTableByWaitressId(cafeId: params.cafeId);
   }
 }
