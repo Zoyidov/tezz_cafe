@@ -59,15 +59,17 @@ class TableRepositoryImpl implements TableRepository {
 
   @override
   Future<Either<Failure, String>> loginCode(
-      {required String tableId, required String waiterToken, required String cafeId}) async {
+      {required String tableId, required String waiterToken, required String cafeId,required String code}) async {
     try {
       final response = await tableDataSource.loginCode(
         tableId: tableId,
         waiterToken: waiterToken,
         cafeId: cafeId,
+        code: code,
       );
       return Right(response);
     } on DioException catch (e) {
+      print(e.response?.data['message']+"dioError");
       if (e.response?.statusCode == 400) {
         return Left(DioFailure(e.response?.data['message'] ?? 'Dio Xatolik', e.response?.statusCode));
       }

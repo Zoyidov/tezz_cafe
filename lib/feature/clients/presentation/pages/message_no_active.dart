@@ -12,6 +12,7 @@ import 'package:tezz_cafe/feature/clients/data/models/table_model.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
 import 'package:tezz_cafe/feature/clients/presentation/pages/mijojzlar_screen.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
+import 'package:toastification/toastification.dart';
 
 class MessageNoActive extends StatefulWidget {
   const MessageNoActive({super.key});
@@ -23,14 +24,31 @@ class MessageNoActive extends StatefulWidget {
 class _MessageNoActiveState extends State<MessageNoActive> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            context.read<TabCubit>().changeMessageState(false);
-          },
-          child: const Icon(Icons.arrow_back)),
-      appBar: const ClientsAppBar(),
-      body: const ClientsPageView(),
+    return BlocListener<ClientTabBloc, ClientTabState>(
+      listener: (context, state) {
+        if (state.updateStatus.isFailure) {
+          toastification.show(
+            context: context,
+            type: ToastificationType.error,
+            style: ToastificationStyle.fillColored,
+            title: const Text('Xatolik'),
+            autoCloseDuration: const Duration(seconds: 5),
+            alignment: Alignment.bottomCenter,
+            description: Text(state.failure),
+          );
+        } else if (state.updateStatus.isSuccess) {
+          context.read<ClientTabBloc>().add(GetTablesByCafe(StorageRepository.getString(StorageKeys.cafeId)));
+        }
+      },
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<TabCubit>().changeMessageState(false);
+            },
+            child: const Icon(Icons.arrow_back)),
+        appBar: const ClientsAppBar(),
+        body: const ClientsPageView(),
+      ),
     );
   }
 }
@@ -140,6 +158,7 @@ class ClientsListView extends StatelessWidget {
     return BlocBuilder<ClientTabBloc, ClientTabState>(
       builder: (context, state) {
         final List<TableModel> filteredTables =
+
             state.tables.where((element) => state.zones[index].id == element.zone && !element.active).toList();
         if (filteredTables.isEmpty) {
           return Center(
@@ -207,15 +226,7 @@ class ClientListItem extends StatelessWidget {
                   const Gap(12),
                   FilledButton(
                       onPressed: () {
-                        // if (codeController.text.length == 4) {
-                        //   final waitressToken = StorageRepository.getString(StorageKeys.token);
-                        //   Navigator.of(context).pop();
-                        //   context.read<ClientTabBloc>().add(UpdateTableActive(
-                        //       tableId: table.id.toString(),
-                        //       waiterToken: waitressToken,
-                        //       cafeId: table.kafeId,
-                        //       code: codeController.text));
-                        // }
+
                       },
                       child: const Text('Tasdiqlash')),
                 ],

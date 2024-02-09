@@ -11,5 +11,5 @@ abstract class TableRepository {
       {required String tableId, required String waiterToken, required String cafeId});
 
   Future<Either<Failure, String>> loginCode(
-      {required String tableId, required String waiterToken, required String cafeId});
+      {required String tableId, required String waiterToken, required String cafeId,required String code});
 }

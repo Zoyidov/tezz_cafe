@@ -13,6 +13,7 @@ class LoginCodeUseCase extends UseCase<UpdateTableActiveParams, String> {
 
   @override
   Future<Either<Failure, String>> execute(UpdateTableActiveParams params) {
-    return tableRepository.loginCode(tableId: params.tableId, waiterToken: params.waiterToken, cafeId: params.cafeId);
+    return tableRepository.loginCode(
+        tableId: params.tableId, waiterToken: params.waiterToken, cafeId: params.cafeId, code: params.code ?? "");
   }
 }

@@ -19,9 +19,6 @@ class YangiBuyurtmaScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           heroTag: 's',
           onPressed: () async {
-            // context.read<OrderBloc>().add(GetOrdersEvent());
-            // print(context.read<OrderBloc>().state.status);
-            // print(context.read<OrderBloc>().state.message);
             print(await TableDataSourceImpl().getTableByWaitressId(cafeId: 1.toString()));
           }),
       appBar: AppBar(

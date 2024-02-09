@@ -31,7 +31,7 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => WaitressBloc(getIt.get<GetWaitressByToken>())),
         BlocProvider(create: (context) => TabCubit()),
-        BlocProvider(create: (context) => OrderBloc(getIt.get<OrderRepositoryImpl>())..add(GetOrdersEvent())),
+        BlocProvider(create: (context) => OrderBloc(getIt.get<OrderRepositoryImpl>())),
         BlocProvider(create: (context) => ClientTabBloc(getIt.get<GetZonesUseCase>())),
         BlocProvider(create: (context) => MenuBloc(getIt.get<GetMenuItemsUseCase>())),
         BlocProvider(create: (context) => AuthBloc(getIt.get<LoginUseCase>())..add(AuthInitial())),

@@ -7,8 +7,14 @@ class UpdateTableActiveParams {
   final String tableId;
   final String waiterToken;
   final String cafeId;
+  final String? code;
 
-  const UpdateTableActiveParams({required this.tableId, required this.waiterToken, required this.cafeId});
+  const UpdateTableActiveParams({
+    required this.tableId,
+    required this.waiterToken,
+    required this.cafeId,
+    this.code,
+  });
 }
 
 class UpdateTableActiveUseCase extends UseCase<UpdateTableActiveParams, void> {

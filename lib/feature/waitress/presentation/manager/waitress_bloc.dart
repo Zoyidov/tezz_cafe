@@ -38,8 +38,9 @@ class WaitressBloc extends Bloc<WaitressEvent, WaitressState> {
           print('xato');
         // toastification.show(context: navigatorKey.currentContext!,type: ToastificationType.error,style: ToastificationStyle.fillColored,title: const Text('Xatolik'),autoCloseDuration: const Duration(seconds: 5),alignment: Alignment.bottomCenter,description: Text(l.message));
         // Navigator.of(navigatorKey.currentContext!).pushNamedAndRemoveUntil(RouteNames.login, (route) => false);
-        await StorageRepository.putBool(StorageKeys.isAuth,false);
         emit(state.copyWith(status: FormzSubmissionStatus.failure, failure: l));
+          await StorageRepository.putBool(StorageKeys.isAuth,false);
+
         // Navigator.of(navigatorKey.currentContext!).pushNamedAndRemoveUntil(RouteNames.login, (route) => false);
         return;
         emit(state.copyWith(status: FormzSubmissionStatus.failure, failure: l));
