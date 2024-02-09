@@ -102,7 +102,7 @@ class ClientTabBloc extends Bloc<ClientTabEvent, ClientTabState> {
   void _getTablesByWaitress(GetTablesByWaitress event, Emitter<ClientTabState> emit) async {
     emit(state.copyWith(tableStatus: FormzSubmissionStatus.inProgress));
     final result =
-        await getTableByWaitressIdUseCase.execute(TableWaitressParams(cafeId: event.cafeId, waiterId: event.waiterId));
+        await getTableByWaitressIdUseCase.execute(TableWaitressParams(cafeId: event.cafeId,));
     result.fold((failure) => emit(state.copyWith(failure: failure.message, tableStatus: FormzSubmissionStatus.failure)),
         (tables) {
       emit(state.copyWith(tables: tables, tableStatus: FormzSubmissionStatus.success));

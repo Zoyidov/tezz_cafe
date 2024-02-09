@@ -19,19 +19,7 @@ class YangiBuyurtmaScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           heroTag: 's',
           onPressed: () async {
-            // print(context.read<ClientTabBloc>().state.updateStatus);
-            // print(context.read<ClientTabBloc>().state.failure);
-            // print(StorageRepository.getString(StorageKeys.cafeId));
-            // context.read<ClientTabBloc>().add(GetTablesByCafe(StorageRepository.getString(StorageKeys.cafeId)));
-            // print(context.read<ClientTabBloc>().state.tables);
-            final token = StorageRepository.getString(StorageKeys.token);
-            final response = await TableDataSourceImpl().loginCode(
-                tableId: "65c3e9ca7ce4b3f89d31a2d4",
-                waiterToken:
-                    token,
-                cafeId: '65c3e5c47ce4b3f89d31a263',
-                code: '1234');
-            print(response);
+            print(await TableDataSourceImpl().getTableByWaitressId(cafeId: 1.toString()));
           }),
       appBar: AppBar(
         // scrolledUnderElevation: 0,

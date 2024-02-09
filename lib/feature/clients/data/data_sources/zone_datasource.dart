@@ -19,9 +19,9 @@ class ZoneDataSourceImpl implements ZoneDataSource {
   @override
   Future<List<ZoneModel>> getZones(String cafeId) async {
     try {
-      final response = await dioSettings.dio.get("${ApiConstants.zoneAll}/$cafeId");
+      final response = await dioSettings.dio.get(ApiConstants.zoneAll,queryParameters: {"cafe_id": cafeId});
       if (response.statusCode == 200) {
-        return List<ZoneModel>.from(response.data["data"].map((x) => ZoneModel.fromJson(x)));
+        return List<ZoneModel>.from(response.data.map((x) => ZoneModel.fromJson(x)));
       }
       throw StatusFailure("Xatolik yuz berdi. Status code: ${response.statusCode}");
     } on DioException catch (e) {

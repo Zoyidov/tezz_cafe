@@ -20,14 +20,14 @@ MenuModel _$MenuModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MenuModel {
-  @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "title")
-  String get title => throw _privateConstructorUsedError;
+  @JsonKey(name: "id")
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "name")
+  String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "image")
   String get image => throw _privateConstructorUsedError;
-  @JsonKey(name: "kafe_id")
-  String get kafeId => throw _privateConstructorUsedError;
+  @JsonKey(name: "cafe")
+  int get cafe => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,10 +41,10 @@ abstract class $MenuModelCopyWith<$Res> {
       _$MenuModelCopyWithImpl<$Res, MenuModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "name") String name,
       @JsonKey(name: "image") String image,
-      @JsonKey(name: "kafe_id") String kafeId});
+      @JsonKey(name: "cafe") int cafe});
 }
 
 /// @nodoc
@@ -61,27 +61,27 @@ class _$MenuModelCopyWithImpl<$Res, $Val extends MenuModel>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
+    Object? name = null,
     Object? image = null,
-    Object? kafeId = null,
+    Object? cafe = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      kafeId: null == kafeId
-          ? _value.kafeId
-          : kafeId // ignore: cast_nullable_to_non_nullable
-              as String,
+      cafe: null == cafe
+          ? _value.cafe
+          : cafe // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -95,10 +95,10 @@ abstract class _$$MenuModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "name") String name,
       @JsonKey(name: "image") String image,
-      @JsonKey(name: "kafe_id") String kafeId});
+      @JsonKey(name: "cafe") int cafe});
 }
 
 /// @nodoc
@@ -113,27 +113,27 @@ class __$$MenuModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
+    Object? name = null,
     Object? image = null,
-    Object? kafeId = null,
+    Object? cafe = null,
   }) {
     return _then(_$MenuModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
-      kafeId: null == kafeId
-          ? _value.kafeId
-          : kafeId // ignore: cast_nullable_to_non_nullable
-              as String,
+      cafe: null == cafe
+          ? _value.cafe
+          : cafe // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -142,30 +142,30 @@ class __$$MenuModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MenuModelImpl implements _MenuModel {
   const _$MenuModelImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "title") required this.title,
+      {@JsonKey(name: "id") required this.id,
+      @JsonKey(name: "name") required this.name,
       @JsonKey(name: "image") required this.image,
-      @JsonKey(name: "kafe_id") required this.kafeId});
+      @JsonKey(name: "cafe") required this.cafe});
 
   factory _$MenuModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MenuModelImplFromJson(json);
 
   @override
-  @JsonKey(name: "_id")
-  final String id;
+  @JsonKey(name: "id")
+  final int id;
   @override
-  @JsonKey(name: "title")
-  final String title;
+  @JsonKey(name: "name")
+  final String name;
   @override
   @JsonKey(name: "image")
   final String image;
   @override
-  @JsonKey(name: "kafe_id")
-  final String kafeId;
+  @JsonKey(name: "cafe")
+  final int cafe;
 
   @override
   String toString() {
-    return 'MenuModel(id: $id, title: $title, image: $image, kafeId: $kafeId)';
+    return 'MenuModel(id: $id, name: $name, image: $image, cafe: $cafe)';
   }
 
   @override
@@ -174,14 +174,14 @@ class _$MenuModelImpl implements _MenuModel {
         (other.runtimeType == runtimeType &&
             other is _$MenuModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title) &&
+            (identical(other.name, name) || other.name == name) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.kafeId, kafeId) || other.kafeId == kafeId));
+            (identical(other.cafe, cafe) || other.cafe == cafe));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, image, kafeId);
+  int get hashCode => Object.hash(runtimeType, id, name, image, cafe);
 
   @JsonKey(ignore: true)
   @override
@@ -199,27 +199,26 @@ class _$MenuModelImpl implements _MenuModel {
 
 abstract class _MenuModel implements MenuModel {
   const factory _MenuModel(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "title") required final String title,
-          @JsonKey(name: "image") required final String image,
-          @JsonKey(name: "kafe_id") required final String kafeId}) =
-      _$MenuModelImpl;
+      {@JsonKey(name: "id") required final int id,
+      @JsonKey(name: "name") required final String name,
+      @JsonKey(name: "image") required final String image,
+      @JsonKey(name: "cafe") required final int cafe}) = _$MenuModelImpl;
 
   factory _MenuModel.fromJson(Map<String, dynamic> json) =
       _$MenuModelImpl.fromJson;
 
   @override
-  @JsonKey(name: "_id")
-  String get id;
+  @JsonKey(name: "id")
+  int get id;
   @override
-  @JsonKey(name: "title")
-  String get title;
+  @JsonKey(name: "name")
+  String get name;
   @override
   @JsonKey(name: "image")
   String get image;
   @override
-  @JsonKey(name: "kafe_id")
-  String get kafeId;
+  @JsonKey(name: "cafe")
+  int get cafe;
   @override
   @JsonKey(ignore: true)
   _$$MenuModelImplCopyWith<_$MenuModelImpl> get copyWith =>

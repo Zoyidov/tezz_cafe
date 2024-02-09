@@ -33,7 +33,7 @@ class PlaceScreen extends StatelessWidget {
         onPressed: () {
           context
               .read<MenuBloc>()
-              .add(GetMenuItems(context.read<WaitressBloc>().state.waitress?.ofisiant.kafeId ?? ""));
+              .add(GetMenuItems(context.read<WaitressBloc>().state.waitress?.cafe.toString() ?? ""));
           context.pushNamed(RouteNames.menu);
         },
         child: const Icon(Icons.add),

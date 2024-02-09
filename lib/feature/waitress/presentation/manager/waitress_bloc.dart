@@ -49,11 +49,11 @@ class WaitressBloc extends Bloc<WaitressEvent, WaitressState> {
         print(r);
 
 
-        navigatorKey.currentContext!.read<ClientTabBloc>().add(GetZones(r.ofisiant.kafeId));
-        navigatorKey.currentContext!.read<ClientTabBloc>().add(GetTablesByCafe(r.ofisiant.kafeId));
+        navigatorKey.currentContext!.read<ClientTabBloc>().add(GetZones(r.cafe.toString()));
+        navigatorKey.currentContext!.read<ClientTabBloc>().add(GetTablesByCafe(r.cafe.toString()));
         emit(state.copyWith(status: FormzSubmissionStatus.success, waitress: r));
-        await StorageRepository.putString(StorageKeys.waiterId, r.ofisiant.id);
-        await StorageRepository.putString(StorageKeys.cafeId, r.ofisiant.kafeId);
+        await StorageRepository.putString(StorageKeys.waiterId, r.id.toString());
+        await StorageRepository.putString(StorageKeys.cafeId, r.cafe.toString());
         print("${StorageRepository.getString(StorageKeys.cafeId)}0000000000000000000000000");
       },
     );

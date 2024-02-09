@@ -23,7 +23,7 @@ class ProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(menuModel.title),
+        title: Text(menuModel.name),
         actions: const [PlaceActionWidget()],
       ),
       body: BlocBuilder<ProductBloc, ProductState>(
@@ -145,7 +145,7 @@ class ProductScreen extends StatelessWidget {
                     ),
                     const Gap(12),
                     Text(
-                      product.title,
+                      product.name,
                       style: context.titleMedium?.copyWith(
                         color: AppColors.black,
                         fontWeight: FontWeight.w600,

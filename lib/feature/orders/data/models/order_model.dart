@@ -1,20 +1,25 @@
+import 'package:meta/meta.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:convert';
 
 part 'order_model.freezed.dart';
-
 part 'order_model.g.dart';
 
 @freezed
 class OrderModel with _$OrderModel {
   const factory OrderModel({
-    @JsonKey(name: "_id")
-    required String id,
-    @JsonKey(name: "product_id")
-    required String productId,
-    @JsonKey(name: "stol_id")
-    required String stolId,
-    @JsonKey(name: "count")
-    required int count,
+    @JsonKey(name: "id")
+    required int id,
+    @JsonKey(name: "table")
+    required int table,
+    @JsonKey(name: "waitress")
+    required int waitress,
+    @JsonKey(name: "created_at")
+    required DateTime createdAt,
+    @JsonKey(name: "total_price")
+    required String totalPrice,
+    @JsonKey(name: "cafe")
+    required int cafe,
   }) = _OrderModel;
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);

@@ -14,6 +14,7 @@ import 'package:tezz_cafe/feature/menu/domain/use_cases/get_menu_items_use_case.
 import 'package:tezz_cafe/feature/menu/presentation/manager/menu_bloc.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tezz_cafe/feature/navigation/presentation/pages/tab_box.dart';
 import 'package:tezz_cafe/feature/orders/data/repositories/oreder_repository.dart';
 import 'package:tezz_cafe/feature/orders/presentation/manager/order_bloc.dart';
 import 'package:tezz_cafe/feature/product/domain/use_cases/get_product_by_menu_id_usecase.dart';
@@ -91,7 +92,8 @@ class MainApp extends StatelessWidget {
               titleTextStyle: context.bodyLarge?.copyWith(color: AppColors.grey500),
               leadingAndTrailingTextStyle: context.bodyLarge?.copyWith(color: AppColors.grey500),
               minLeadingWidth: 12)),
-      onGenerateRoute: AppRoutes.generateRoute,
+      home: TabBox(),
+      // onGenerateRoute: AppRoutes.generateRoute,
     );
   }
 }

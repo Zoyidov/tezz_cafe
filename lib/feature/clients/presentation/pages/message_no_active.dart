@@ -99,7 +99,7 @@ class ToggleButtonsContainer extends StatelessWidget {
                   maxWidth: context.width * 0.3, minWidth: context.width * 0.3, minHeight: 36, maxHeight: 36),
               isSelected: context.watch<ClientTabBloc>().state.isSelectedNoActive,
               onPressed: (int index) => clientTabBloc.add(TabChangedNoActive(index: index)),
-              children: state.zones.map((e) => Text(e.title)).toList(),
+              children: state.zones.map((e) => Text(e.name)).toList(),
             ),
           ),
         );
@@ -124,14 +124,7 @@ class ClientsPageView extends StatelessWidget {
               itemBuilder: (context, index) {
                 // final table = filteredTables[index];
                 return const ClientListItem(
-                    table: TableModel(
-                        id: 'id',
-                        stolNomi: 'stolNomi',
-                        qr: 'qr',
-                        active: false,
-                        kafeId: 'kafeId',
-                        zoneId: 'zoneId',
-                        ofisiantId: 'ofisiantId'));
+                    table: TableModel(id: 1, number: "number", capacity: 1, active: true, totalPrice: 123, zone: 1));
               },
               separatorBuilder: (context, index) => const Gap(12),
               itemCount: 10,
@@ -165,8 +158,8 @@ class ClientsListView extends StatelessWidget {
     return BlocBuilder<ClientTabBloc, ClientTabState>(
       builder: (context, state) {
         final List<TableModel> filteredTables =
-            state.tables.where((element) => state.zones[index].id == element.zoneId && !element.active).toList();
 
+            state.tables.where((element) => state.zones[index].id == element.zone && !element.active).toList();
         if (filteredTables.isEmpty) {
           return Center(
             child: Text(
@@ -206,7 +199,7 @@ class ClientListItem extends StatelessWidget {
             return AlertDialog(
               backgroundColor: AppColors.containerColor,
               surfaceTintColor: AppColors.containerColor,
-              title: Text(table.stolNomi),
+              title: Text(table.number),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
@@ -233,16 +226,7 @@ class ClientListItem extends StatelessWidget {
                   const Gap(12),
                   FilledButton(
                       onPressed: () {
-                        if (codeController.text.length == 4) {
-                          final waitressToken = StorageRepository.getString(StorageKeys.token);
-                          context.read<ClientTabBloc>().add(UpdateTableActive(
-                                tableId: table.id,
-                                waiterToken: waitressToken,
-                                cafeId: table.kafeId,
-                                code: codeController.text.trim(),
-                              ));
-                          Navigator.of(context).pop();
-                        }
+
                       },
                       child: const Text('Tasdiqlash')),
                 ],
@@ -281,7 +265,7 @@ class ClientIcon extends StatelessWidget {
         CircleIcon(isActive: isActive),
         const Gap(8),
         Text(
-          table.stolNomi,
+          table.number,
           style: context.headlineSmall?.copyWith(color: AppColors.black, fontWeight: FontWeight.w600),
         ),
       ],

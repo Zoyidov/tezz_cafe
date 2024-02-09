@@ -23,7 +23,7 @@ class FoodDetailScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(product.title),
+            title: Text(product.name),
             actions: const [PlaceActionWidget()],
           ),
           body: SingleChildScrollView(
@@ -49,7 +49,7 @@ class FoodDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      product.title,
+                      product.name,
                       style: context.titleMedium?.copyWith(
                         color: AppColors.black,
                         fontWeight: FontWeight.w600,
@@ -90,7 +90,7 @@ class FoodDetailScreen extends StatelessWidget {
                     ),
                     const Gap(4),
                     Text(
-                      product.desc,
+                      product.description,
                       style: AppFontStyle.description.copyWith(color: AppColors.grey500),
                     )
                     // ListView.builder(

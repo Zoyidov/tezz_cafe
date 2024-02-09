@@ -20,20 +20,18 @@ TableModel _$TableModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TableModel {
-  @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "stol_nomi")
-  String get stolNomi => throw _privateConstructorUsedError;
-  @JsonKey(name: "QR")
-  String get qr => throw _privateConstructorUsedError;
+  @JsonKey(name: "id")
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "number")
+  String get number => throw _privateConstructorUsedError;
+  @JsonKey(name: "capacity")
+  int get capacity => throw _privateConstructorUsedError;
   @JsonKey(name: "active")
   bool get active => throw _privateConstructorUsedError;
-  @JsonKey(name: "kafe_id")
-  String get kafeId => throw _privateConstructorUsedError;
-  @JsonKey(name: "zone_id")
-  String get zoneId => throw _privateConstructorUsedError;
-  @JsonKey(name: "ofisiant_id")
-  String? get ofisiantId => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_price")
+  int get totalPrice => throw _privateConstructorUsedError;
+  @JsonKey(name: "zone")
+  int get zone => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,13 +46,12 @@ abstract class $TableModelCopyWith<$Res> {
       _$TableModelCopyWithImpl<$Res, TableModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "stol_nomi") String stolNomi,
-      @JsonKey(name: "QR") String qr,
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "number") String number,
+      @JsonKey(name: "capacity") int capacity,
       @JsonKey(name: "active") bool active,
-      @JsonKey(name: "kafe_id") String kafeId,
-      @JsonKey(name: "zone_id") String zoneId,
-      @JsonKey(name: "ofisiant_id") String? ofisiantId});
+      @JsonKey(name: "total_price") int totalPrice,
+      @JsonKey(name: "zone") int zone});
 }
 
 /// @nodoc
@@ -71,42 +68,37 @@ class _$TableModelCopyWithImpl<$Res, $Val extends TableModel>
   @override
   $Res call({
     Object? id = null,
-    Object? stolNomi = null,
-    Object? qr = null,
+    Object? number = null,
+    Object? capacity = null,
     Object? active = null,
-    Object? kafeId = null,
-    Object? zoneId = null,
-    Object? ofisiantId = freezed,
+    Object? totalPrice = null,
+    Object? zone = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
               as String,
-      stolNomi: null == stolNomi
-          ? _value.stolNomi
-          : stolNomi // ignore: cast_nullable_to_non_nullable
-              as String,
-      qr: null == qr
-          ? _value.qr
-          : qr // ignore: cast_nullable_to_non_nullable
-              as String,
+      capacity: null == capacity
+          ? _value.capacity
+          : capacity // ignore: cast_nullable_to_non_nullable
+              as int,
       active: null == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
               as bool,
-      kafeId: null == kafeId
-          ? _value.kafeId
-          : kafeId // ignore: cast_nullable_to_non_nullable
-              as String,
-      zoneId: null == zoneId
-          ? _value.zoneId
-          : zoneId // ignore: cast_nullable_to_non_nullable
-              as String,
-      ofisiantId: freezed == ofisiantId
-          ? _value.ofisiantId
-          : ofisiantId // ignore: cast_nullable_to_non_nullable
-              as String?,
+      totalPrice: null == totalPrice
+          ? _value.totalPrice
+          : totalPrice // ignore: cast_nullable_to_non_nullable
+              as int,
+      zone: null == zone
+          ? _value.zone
+          : zone // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -120,13 +112,12 @@ abstract class _$$TableModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "stol_nomi") String stolNomi,
-      @JsonKey(name: "QR") String qr,
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "number") String number,
+      @JsonKey(name: "capacity") int capacity,
       @JsonKey(name: "active") bool active,
-      @JsonKey(name: "kafe_id") String kafeId,
-      @JsonKey(name: "zone_id") String zoneId,
-      @JsonKey(name: "ofisiant_id") String? ofisiantId});
+      @JsonKey(name: "total_price") int totalPrice,
+      @JsonKey(name: "zone") int zone});
 }
 
 /// @nodoc
@@ -141,42 +132,37 @@ class __$$TableModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? stolNomi = null,
-    Object? qr = null,
+    Object? number = null,
+    Object? capacity = null,
     Object? active = null,
-    Object? kafeId = null,
-    Object? zoneId = null,
-    Object? ofisiantId = freezed,
+    Object? totalPrice = null,
+    Object? zone = null,
   }) {
     return _then(_$TableModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
               as String,
-      stolNomi: null == stolNomi
-          ? _value.stolNomi
-          : stolNomi // ignore: cast_nullable_to_non_nullable
-              as String,
-      qr: null == qr
-          ? _value.qr
-          : qr // ignore: cast_nullable_to_non_nullable
-              as String,
+      capacity: null == capacity
+          ? _value.capacity
+          : capacity // ignore: cast_nullable_to_non_nullable
+              as int,
       active: null == active
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
               as bool,
-      kafeId: null == kafeId
-          ? _value.kafeId
-          : kafeId // ignore: cast_nullable_to_non_nullable
-              as String,
-      zoneId: null == zoneId
-          ? _value.zoneId
-          : zoneId // ignore: cast_nullable_to_non_nullable
-              as String,
-      ofisiantId: freezed == ofisiantId
-          ? _value.ofisiantId
-          : ofisiantId // ignore: cast_nullable_to_non_nullable
-              as String?,
+      totalPrice: null == totalPrice
+          ? _value.totalPrice
+          : totalPrice // ignore: cast_nullable_to_non_nullable
+              as int,
+      zone: null == zone
+          ? _value.zone
+          : zone // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -185,42 +171,38 @@ class __$$TableModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TableModelImpl implements _TableModel {
   const _$TableModelImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "stol_nomi") required this.stolNomi,
-      @JsonKey(name: "QR") required this.qr,
+      {@JsonKey(name: "id") required this.id,
+      @JsonKey(name: "number") required this.number,
+      @JsonKey(name: "capacity") required this.capacity,
       @JsonKey(name: "active") required this.active,
-      @JsonKey(name: "kafe_id") required this.kafeId,
-      @JsonKey(name: "zone_id") required this.zoneId,
-      @JsonKey(name: "ofisiant_id") this.ofisiantId});
+      @JsonKey(name: "total_price") required this.totalPrice,
+      @JsonKey(name: "zone") required this.zone});
 
   factory _$TableModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TableModelImplFromJson(json);
 
   @override
-  @JsonKey(name: "_id")
-  final String id;
+  @JsonKey(name: "id")
+  final int id;
   @override
-  @JsonKey(name: "stol_nomi")
-  final String stolNomi;
+  @JsonKey(name: "number")
+  final String number;
   @override
-  @JsonKey(name: "QR")
-  final String qr;
+  @JsonKey(name: "capacity")
+  final int capacity;
   @override
   @JsonKey(name: "active")
   final bool active;
   @override
-  @JsonKey(name: "kafe_id")
-  final String kafeId;
+  @JsonKey(name: "total_price")
+  final int totalPrice;
   @override
-  @JsonKey(name: "zone_id")
-  final String zoneId;
-  @override
-  @JsonKey(name: "ofisiant_id")
-  final String? ofisiantId;
+  @JsonKey(name: "zone")
+  final int zone;
 
   @override
   String toString() {
-    return 'TableModel(id: $id, stolNomi: $stolNomi, qr: $qr, active: $active, kafeId: $kafeId, zoneId: $zoneId, ofisiantId: $ofisiantId)';
+    return 'TableModel(id: $id, number: $number, capacity: $capacity, active: $active, totalPrice: $totalPrice, zone: $zone)';
   }
 
   @override
@@ -229,20 +211,19 @@ class _$TableModelImpl implements _TableModel {
         (other.runtimeType == runtimeType &&
             other is _$TableModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.stolNomi, stolNomi) ||
-                other.stolNomi == stolNomi) &&
-            (identical(other.qr, qr) || other.qr == qr) &&
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.capacity, capacity) ||
+                other.capacity == capacity) &&
             (identical(other.active, active) || other.active == active) &&
-            (identical(other.kafeId, kafeId) || other.kafeId == kafeId) &&
-            (identical(other.zoneId, zoneId) || other.zoneId == zoneId) &&
-            (identical(other.ofisiantId, ofisiantId) ||
-                other.ofisiantId == ofisiantId));
+            (identical(other.totalPrice, totalPrice) ||
+                other.totalPrice == totalPrice) &&
+            (identical(other.zone, zone) || other.zone == zone));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, stolNomi, qr, active, kafeId, zoneId, ofisiantId);
+  int get hashCode =>
+      Object.hash(runtimeType, id, number, capacity, active, totalPrice, zone);
 
   @JsonKey(ignore: true)
   @override
@@ -260,39 +241,34 @@ class _$TableModelImpl implements _TableModel {
 
 abstract class _TableModel implements TableModel {
   const factory _TableModel(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "stol_nomi") required final String stolNomi,
-          @JsonKey(name: "QR") required final String qr,
-          @JsonKey(name: "active") required final bool active,
-          @JsonKey(name: "kafe_id") required final String kafeId,
-          @JsonKey(name: "zone_id") required final String zoneId,
-          @JsonKey(name: "ofisiant_id") final String? ofisiantId}) =
-      _$TableModelImpl;
+      {@JsonKey(name: "id") required final int id,
+      @JsonKey(name: "number") required final String number,
+      @JsonKey(name: "capacity") required final int capacity,
+      @JsonKey(name: "active") required final bool active,
+      @JsonKey(name: "total_price") required final int totalPrice,
+      @JsonKey(name: "zone") required final int zone}) = _$TableModelImpl;
 
   factory _TableModel.fromJson(Map<String, dynamic> json) =
       _$TableModelImpl.fromJson;
 
   @override
-  @JsonKey(name: "_id")
-  String get id;
+  @JsonKey(name: "id")
+  int get id;
   @override
-  @JsonKey(name: "stol_nomi")
-  String get stolNomi;
+  @JsonKey(name: "number")
+  String get number;
   @override
-  @JsonKey(name: "QR")
-  String get qr;
+  @JsonKey(name: "capacity")
+  int get capacity;
   @override
   @JsonKey(name: "active")
   bool get active;
   @override
-  @JsonKey(name: "kafe_id")
-  String get kafeId;
+  @JsonKey(name: "total_price")
+  int get totalPrice;
   @override
-  @JsonKey(name: "zone_id")
-  String get zoneId;
-  @override
-  @JsonKey(name: "ofisiant_id")
-  String? get ofisiantId;
+  @JsonKey(name: "zone")
+  int get zone;
   @override
   @JsonKey(ignore: true)
   _$$TableModelImplCopyWith<_$TableModelImpl> get copyWith =>
