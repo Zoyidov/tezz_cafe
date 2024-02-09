@@ -20,18 +20,18 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ProductModel {
-  @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "title")
-  String get title => throw _privateConstructorUsedError;
-  @JsonKey(name: "image")
-  String get image => throw _privateConstructorUsedError;
+  @JsonKey(name: "id")
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "name")
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: "description")
+  String get description => throw _privateConstructorUsedError;
   @JsonKey(name: "price")
   int get price => throw _privateConstructorUsedError;
-  @JsonKey(name: "desc")
-  String get desc => throw _privateConstructorUsedError;
-  @JsonKey(name: "menu_id")
-  String get menuId => throw _privateConstructorUsedError;
+  @JsonKey(name: "image")
+  String get image => throw _privateConstructorUsedError;
+  @JsonKey(name: "menu")
+  int get menu => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,12 +46,12 @@ abstract class $ProductModelCopyWith<$Res> {
       _$ProductModelCopyWithImpl<$Res, ProductModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "image") String image,
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "name") String name,
+      @JsonKey(name: "description") String description,
       @JsonKey(name: "price") int price,
-      @JsonKey(name: "desc") String desc,
-      @JsonKey(name: "menu_id") String menuId});
+      @JsonKey(name: "image") String image,
+      @JsonKey(name: "menu") int menu});
 }
 
 /// @nodoc
@@ -68,37 +68,37 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
-    Object? image = null,
+    Object? name = null,
+    Object? description = null,
     Object? price = null,
-    Object? desc = null,
-    Object? menuId = null,
+    Object? image = null,
+    Object? menu = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int,
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
-      menuId: null == menuId
-          ? _value.menuId
-          : menuId // ignore: cast_nullable_to_non_nullable
-              as String,
+      menu: null == menu
+          ? _value.menu
+          : menu // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -112,12 +112,12 @@ abstract class _$$ProductModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "image") String image,
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "name") String name,
+      @JsonKey(name: "description") String description,
       @JsonKey(name: "price") int price,
-      @JsonKey(name: "desc") String desc,
-      @JsonKey(name: "menu_id") String menuId});
+      @JsonKey(name: "image") String image,
+      @JsonKey(name: "menu") int menu});
 }
 
 /// @nodoc
@@ -132,37 +132,37 @@ class __$$ProductModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
-    Object? image = null,
+    Object? name = null,
+    Object? description = null,
     Object? price = null,
-    Object? desc = null,
-    Object? menuId = null,
+    Object? image = null,
+    Object? menu = null,
   }) {
     return _then(_$ProductModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int,
-      desc: null == desc
-          ? _value.desc
-          : desc // ignore: cast_nullable_to_non_nullable
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
-      menuId: null == menuId
-          ? _value.menuId
-          : menuId // ignore: cast_nullable_to_non_nullable
-              as String,
+      menu: null == menu
+          ? _value.menu
+          : menu // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -171,38 +171,38 @@ class __$$ProductModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ProductModelImpl implements _ProductModel {
   const _$ProductModelImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "title") required this.title,
-      @JsonKey(name: "image") required this.image,
+      {@JsonKey(name: "id") required this.id,
+      @JsonKey(name: "name") required this.name,
+      @JsonKey(name: "description") required this.description,
       @JsonKey(name: "price") required this.price,
-      @JsonKey(name: "desc") required this.desc,
-      @JsonKey(name: "menu_id") required this.menuId});
+      @JsonKey(name: "image") required this.image,
+      @JsonKey(name: "menu") required this.menu});
 
   factory _$ProductModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductModelImplFromJson(json);
 
   @override
-  @JsonKey(name: "_id")
-  final String id;
+  @JsonKey(name: "id")
+  final int id;
   @override
-  @JsonKey(name: "title")
-  final String title;
+  @JsonKey(name: "name")
+  final String name;
   @override
-  @JsonKey(name: "image")
-  final String image;
+  @JsonKey(name: "description")
+  final String description;
   @override
   @JsonKey(name: "price")
   final int price;
   @override
-  @JsonKey(name: "desc")
-  final String desc;
+  @JsonKey(name: "image")
+  final String image;
   @override
-  @JsonKey(name: "menu_id")
-  final String menuId;
+  @JsonKey(name: "menu")
+  final int menu;
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, title: $title, image: $image, price: $price, desc: $desc, menuId: $menuId)';
+    return 'ProductModel(id: $id, name: $name, description: $description, price: $price, image: $image, menu: $menu)';
   }
 
   @override
@@ -211,17 +211,18 @@ class _$ProductModelImpl implements _ProductModel {
         (other.runtimeType == runtimeType &&
             other is _$ProductModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.image, image) || other.image == image) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.desc, desc) || other.desc == desc) &&
-            (identical(other.menuId, menuId) || other.menuId == menuId));
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.menu, menu) || other.menu == menu));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, title, image, price, desc, menuId);
+      Object.hash(runtimeType, id, name, description, price, image, menu);
 
   @JsonKey(ignore: true)
   @override
@@ -239,35 +240,34 @@ class _$ProductModelImpl implements _ProductModel {
 
 abstract class _ProductModel implements ProductModel {
   const factory _ProductModel(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "title") required final String title,
-          @JsonKey(name: "image") required final String image,
-          @JsonKey(name: "price") required final int price,
-          @JsonKey(name: "desc") required final String desc,
-          @JsonKey(name: "menu_id") required final String menuId}) =
-      _$ProductModelImpl;
+      {@JsonKey(name: "id") required final int id,
+      @JsonKey(name: "name") required final String name,
+      @JsonKey(name: "description") required final String description,
+      @JsonKey(name: "price") required final int price,
+      @JsonKey(name: "image") required final String image,
+      @JsonKey(name: "menu") required final int menu}) = _$ProductModelImpl;
 
   factory _ProductModel.fromJson(Map<String, dynamic> json) =
       _$ProductModelImpl.fromJson;
 
   @override
-  @JsonKey(name: "_id")
-  String get id;
+  @JsonKey(name: "id")
+  int get id;
   @override
-  @JsonKey(name: "title")
-  String get title;
+  @JsonKey(name: "name")
+  String get name;
   @override
-  @JsonKey(name: "image")
-  String get image;
+  @JsonKey(name: "description")
+  String get description;
   @override
   @JsonKey(name: "price")
   int get price;
   @override
-  @JsonKey(name: "desc")
-  String get desc;
+  @JsonKey(name: "image")
+  String get image;
   @override
-  @JsonKey(name: "menu_id")
-  String get menuId;
+  @JsonKey(name: "menu")
+  int get menu;
   @override
   @JsonKey(ignore: true)
   _$$ProductModelImplCopyWith<_$ProductModelImpl> get copyWith =>

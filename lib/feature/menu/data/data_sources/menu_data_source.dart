@@ -18,7 +18,7 @@ class MenuDataSourceImpl implements MenuDataSource {
     try {
       print('cafe');
       print(cafeId);
-      final response = await dio.get("${ApiConstants.menuAll}/$cafeId");
+      final response = await dio.get("${ApiConstants.menuAll}/$cafeId",queryParameters: {'cafe': cafeId});
       if (response.statusCode == 200) {
         return List<MenuModel>.from(response.data['data'].map((item) => MenuModel.fromJson(item))).toList();
       }

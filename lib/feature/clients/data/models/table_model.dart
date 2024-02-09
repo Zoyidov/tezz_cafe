@@ -1,19 +1,25 @@
+import 'package:meta/meta.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:convert';
 
 part 'table_model.freezed.dart';
-
 part 'table_model.g.dart';
 
 @freezed
 class TableModel with _$TableModel {
   const factory TableModel({
-    @JsonKey(name: "_id") required String id,
-    @JsonKey(name: "stol_nomi") required String stolNomi,
-    @JsonKey(name: "QR") required String qr,
-    @JsonKey(name: "active") required bool active,
-    @JsonKey(name: "kafe_id") required String kafeId,
-    @JsonKey(name: "zone_id") required String zoneId,
-    @JsonKey(name: "ofisiant_id")  String? ofisiantId,
+    @JsonKey(name: "id")
+    required int id,
+    @JsonKey(name: "number")
+    required String number,
+    @JsonKey(name: "capacity")
+    required int capacity,
+    @JsonKey(name: "active")
+    required bool active,
+    @JsonKey(name: "total_price")
+    required int totalPrice,
+    @JsonKey(name: "zone")
+    required int zone,
   }) = _TableModel;
 
   factory TableModel.fromJson(Map<String, dynamic> json) => _$TableModelFromJson(json);

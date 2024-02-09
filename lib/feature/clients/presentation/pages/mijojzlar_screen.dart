@@ -79,7 +79,7 @@ class ToggleButtonsContainer extends StatelessWidget {
                   .state
                   .isSelected,
               onPressed: (int index) => clientTabBloc.add(TabChanged(index: index)),
-              children: state.zones.map((e) => Text(e.title)).toList(),
+              children: state.zones.map((e) => Text(e.name)).toList(),
             ),
           ),
         );
@@ -159,7 +159,7 @@ class ClientsListView extends StatelessWidget {
 
       builder: (context, state) {
         final List<TableModel> filteredTables =
-        state.tables.where((element) => state.zones[index].id == element.zoneId && element.active).toList();
+        state.tables.where((element) => state.zones[index].id == element.zone && element.active).toList();
         if (filteredTables.isEmpty) {
           return Center(
             child: Text('Stollar topilmadi', style: context.titleLarge, textAlign: TextAlign.center),

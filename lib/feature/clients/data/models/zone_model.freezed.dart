@@ -20,12 +20,12 @@ ZoneModel _$ZoneModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ZoneModel {
-  @JsonKey(name: "_id")
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "title")
-  String get title => throw _privateConstructorUsedError;
-  @JsonKey(name: "kafe_id")
-  String get kafeId => throw _privateConstructorUsedError;
+  @JsonKey(name: "id")
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "name")
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: "cafe")
+  int get cafe => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,9 +39,9 @@ abstract class $ZoneModelCopyWith<$Res> {
       _$ZoneModelCopyWithImpl<$Res, ZoneModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "kafe_id") String kafeId});
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "name") String name,
+      @JsonKey(name: "cafe") int cafe});
 }
 
 /// @nodoc
@@ -58,22 +58,22 @@ class _$ZoneModelCopyWithImpl<$Res, $Val extends ZoneModel>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
-    Object? kafeId = null,
+    Object? name = null,
+    Object? cafe = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      kafeId: null == kafeId
-          ? _value.kafeId
-          : kafeId // ignore: cast_nullable_to_non_nullable
-              as String,
+      cafe: null == cafe
+          ? _value.cafe
+          : cafe // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -87,9 +87,9 @@ abstract class _$$ZoneModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "_id") String id,
-      @JsonKey(name: "title") String title,
-      @JsonKey(name: "kafe_id") String kafeId});
+      {@JsonKey(name: "id") int id,
+      @JsonKey(name: "name") String name,
+      @JsonKey(name: "cafe") int cafe});
 }
 
 /// @nodoc
@@ -104,22 +104,22 @@ class __$$ZoneModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? title = null,
-    Object? kafeId = null,
+    Object? name = null,
+    Object? cafe = null,
   }) {
     return _then(_$ZoneModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      kafeId: null == kafeId
-          ? _value.kafeId
-          : kafeId // ignore: cast_nullable_to_non_nullable
-              as String,
+      cafe: null == cafe
+          ? _value.cafe
+          : cafe // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -128,26 +128,26 @@ class __$$ZoneModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ZoneModelImpl implements _ZoneModel {
   const _$ZoneModelImpl(
-      {@JsonKey(name: "_id") required this.id,
-      @JsonKey(name: "title") required this.title,
-      @JsonKey(name: "kafe_id") required this.kafeId});
+      {@JsonKey(name: "id") required this.id,
+      @JsonKey(name: "name") required this.name,
+      @JsonKey(name: "cafe") required this.cafe});
 
   factory _$ZoneModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ZoneModelImplFromJson(json);
 
   @override
-  @JsonKey(name: "_id")
-  final String id;
+  @JsonKey(name: "id")
+  final int id;
   @override
-  @JsonKey(name: "title")
-  final String title;
+  @JsonKey(name: "name")
+  final String name;
   @override
-  @JsonKey(name: "kafe_id")
-  final String kafeId;
+  @JsonKey(name: "cafe")
+  final int cafe;
 
   @override
   String toString() {
-    return 'ZoneModel(id: $id, title: $title, kafeId: $kafeId)';
+    return 'ZoneModel(id: $id, name: $name, cafe: $cafe)';
   }
 
   @override
@@ -156,13 +156,13 @@ class _$ZoneModelImpl implements _ZoneModel {
         (other.runtimeType == runtimeType &&
             other is _$ZoneModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.kafeId, kafeId) || other.kafeId == kafeId));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.cafe, cafe) || other.cafe == cafe));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, kafeId);
+  int get hashCode => Object.hash(runtimeType, id, name, cafe);
 
   @JsonKey(ignore: true)
   @override
@@ -180,23 +180,22 @@ class _$ZoneModelImpl implements _ZoneModel {
 
 abstract class _ZoneModel implements ZoneModel {
   const factory _ZoneModel(
-          {@JsonKey(name: "_id") required final String id,
-          @JsonKey(name: "title") required final String title,
-          @JsonKey(name: "kafe_id") required final String kafeId}) =
-      _$ZoneModelImpl;
+      {@JsonKey(name: "id") required final int id,
+      @JsonKey(name: "name") required final String name,
+      @JsonKey(name: "cafe") required final int cafe}) = _$ZoneModelImpl;
 
   factory _ZoneModel.fromJson(Map<String, dynamic> json) =
       _$ZoneModelImpl.fromJson;
 
   @override
-  @JsonKey(name: "_id")
-  String get id;
+  @JsonKey(name: "id")
+  int get id;
   @override
-  @JsonKey(name: "title")
-  String get title;
+  @JsonKey(name: "name")
+  String get name;
   @override
-  @JsonKey(name: "kafe_id")
-  String get kafeId;
+  @JsonKey(name: "cafe")
+  int get cafe;
   @override
   @JsonKey(ignore: true)
   _$$ZoneModelImplCopyWith<_$ZoneModelImpl> get copyWith =>
