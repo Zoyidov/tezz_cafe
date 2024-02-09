@@ -1,7 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:tezz_cafe/app.dart';
 import 'package:tezz_cafe/core/utils/di/service_locator.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
 import 'package:tezz_cafe/feature/clients/data/models/table_model.dart';
 import 'package:tezz_cafe/feature/clients/data/models/zone_model.dart';
 import 'package:tezz_cafe/feature/clients/domain/use_cases/get_table_by_waitress_id_usecase.dart';
@@ -9,6 +12,7 @@ import 'package:tezz_cafe/feature/clients/domain/use_cases/get_tables_by_cafe_us
 import 'package:tezz_cafe/feature/clients/domain/use_cases/get_zones_usecase.dart';
 import 'package:tezz_cafe/feature/clients/domain/use_cases/login_code_usecase.dart';
 import 'package:tezz_cafe/feature/clients/domain/use_cases/update_stol_active_usecase.dart';
+import 'package:toastification/toastification.dart';
 
 part 'client_tab_event.dart';
 
@@ -37,25 +41,47 @@ class ClientTabBloc extends Bloc<ClientTabEvent, ClientTabState> {
   }
 
   void _updateTableActive(UpdateTableActive event, Emitter<ClientTabState> emit) async {
-    emit(state.copyWith(tableStatus: FormzSubmissionStatus.inProgress));
-    final loginCodeResult = await loginCodeUseCase
-        .execute(UpdateTableActiveParams(tableId: event.tableId, waiterToken: event.waiterToken, cafeId: event.cafeId));
-    if (loginCodeResult.isLeft()) {
-      emit(state.copyWith(
-        updateStatus: FormzSubmissionStatus.failure,
-        failure: loginCodeResult.fold((l) => l.message, (r) => null),
-      ));
-    } else {
+    emit(state.copyWith(updateStatus: FormzSubmissionStatus.inProgress));
+    final loginCodeResult = await loginCodeUseCase.execute(UpdateTableActiveParams(
+        tableId: event.tableId, waiterToken: event.waiterToken, cafeId: event.cafeId, code: event.code));
+    print(loginCodeResult.isRight());
+    print(loginCodeResult.getleft());
+    if (loginCodeResult.isRight()) {
+      final token = loginCodeResult.getright();
+      await StorageRepository.putString(event.tableId, token!);
+
       final result = await updateTableActiveUseCase.execute(
           UpdateTableActiveParams(tableId: event.tableId, waiterToken: event.waiterToken, cafeId: event.cafeId));
 
       if (result.isLeft()) {
-        emit(state.copyWith(
-            updateStatus: FormzSubmissionStatus.failure, failure: result.fold((l) => l.message, (r) => null)));
+        emit(state.copyWith(updateStatus: FormzSubmissionStatus.failure, failure: result.getleft()?.message));
         return;
       }
       emit(state.copyWith(updateStatus: FormzSubmissionStatus.success));
+    } else {
+      print("show");
+
+      print('xato');
+      emit(state.copyWith(updateStatus: FormzSubmissionStatus.failure, failure: loginCodeResult.getleft()?.message));
     }
+    // if (loginCodeResult.isLeft()) {
+    //
+    //   emit(state.copyWith(
+    //     updateStatus: FormzSubmissionStatus.failure,
+    //     failure: loginCodeResult.fold((l) => l.message, (r) => null),
+    //   ));
+    // } else {
+    //   print(loginCodeResult.fold((l) => l.message, (r) => r));
+    //   final result = await updateTableActiveUseCase.execute(
+    //       UpdateTableActiveParams(tableId: event.tableId, waiterToken: event.waiterToken, cafeId: event.cafeId));
+    //
+    //   if (result.isLeft()) {
+    //     emit(state.copyWith(
+    //         updateStatus: FormzSubmissionStatus.failure, failure: result.fold((l) => l.message, (r) => null)));
+    //     return;
+    //   }
+    //   emit(state.copyWith(updateStatus: FormzSubmissionStatus.success));
+    // }
 
     // result
     //     .fold((failure) => emit(state.copyWith(failure: failure.message, updateStatus: FormzSubmissionStatus.failure)),
@@ -139,4 +165,10 @@ class ClientTabBloc extends Bloc<ClientTabEvent, ClientTabState> {
     pageControllerNoActive.animateToPage(event.index,
         duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
+}
+
+extension eitherextension<l, r> on Either<l, r> {
+  r? getright() => fold<r?>((_) => null, (r) => r);
+
+  l? getleft() => fold<l?>((l) => l, (_) => null);
 }

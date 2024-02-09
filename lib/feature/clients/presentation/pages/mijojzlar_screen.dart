@@ -6,9 +6,11 @@ import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
+import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
 import 'package:tezz_cafe/feature/clients/data/models/table_model.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
+import 'package:tezz_cafe/feature/orders/presentation/manager/order_bloc.dart';
 
 class ClientsScreen extends StatefulWidget {
   const ClientsScreen({super.key});
@@ -70,14 +72,10 @@ class ToggleButtonsContainer extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             child: ToggleButtons(
-
               borderRadius: BorderRadius.circular(10),
               constraints: BoxConstraints(
                   maxWidth: context.width * 0.3, minWidth: context.width * 0.3, minHeight: 36, maxHeight: 36),
-              isSelected: context
-                  .watch<ClientTabBloc>()
-                  .state
-                  .isSelected,
+              isSelected: context.watch<ClientTabBloc>().state.isSelected,
               onPressed: (int index) => clientTabBloc.add(TabChanged(index: index)),
               children: state.zones.map((e) => Text(e.title)).toList(),
             ),
@@ -126,7 +124,10 @@ class ClientsPageView extends StatelessWidget {
             child: ListView.separated(
               padding: const EdgeInsets.all(20),
               itemBuilder: (context, index) {
-                return const ClientListItemActive();
+                return const ClientListItemActive(
+                  table: TableModel(
+                      id: 'id', stolNomi: 'stolNomi', qr: 'qr', active: true, kafeId: 'kafeId', zoneId: 'zoneId'),
+                );
               },
               separatorBuilder: (context, index) => const Gap(12),
               itemCount: 10,
@@ -156,10 +157,9 @@ class ClientsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ClientTabBloc, ClientTabState>(
-
       builder: (context, state) {
         final List<TableModel> filteredTables =
-        state.tables.where((element) => state.zones[index].id == element.zoneId && element.active).toList();
+            state.tables.where((element) => state.zones[index].id == element.zoneId && element.active).toList();
         if (filteredTables.isEmpty) {
           return Center(
             child: Text('Stollar topilmadi', style: context.titleLarge, textAlign: TextAlign.center),
@@ -168,7 +168,8 @@ class ClientsListView extends StatelessWidget {
         return ListView.separated(
           padding: const EdgeInsets.all(20),
           itemBuilder: (context, index) {
-            return const ClientListItemActive();
+            final table = filteredTables[index];
+            return ClientListItemActive(table: table);
           },
           separatorBuilder: (context, index) => const Gap(12),
           itemCount: filteredTables.length,
@@ -179,7 +180,9 @@ class ClientsListView extends StatelessWidget {
 }
 
 class ClientListItem extends StatelessWidget {
-  const ClientListItem({super.key});
+  const ClientListItem({super.key, required this.table});
+
+  final TableModel table;
 
   @override
   Widget build(BuildContext context) {
@@ -189,11 +192,11 @@ class ClientListItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         color: AppColors.textFieldColor,
       ),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClientIcon(),
-          ClientDetails(),
+          ClientIcon(table: table),
+          const ClientDetails(),
         ],
       ),
     );
@@ -201,9 +204,10 @@ class ClientListItem extends StatelessWidget {
 }
 
 class ClientIcon extends StatelessWidget {
-  const ClientIcon({super.key, this.isActive = true});
+  const ClientIcon({super.key, this.isActive = true, required this.table});
 
   final bool isActive;
+  final TableModel table;
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +216,7 @@ class ClientIcon extends StatelessWidget {
         CircleIcon(isActive: isActive),
         const Gap(8),
         Text(
-          'Stol-1',
+          table.stolNomi,
           style: context.headlineSmall?.copyWith(color: AppColors.black, fontWeight: FontWeight.w600),
         ),
       ],
@@ -251,12 +255,15 @@ class ClientDetails extends StatelessWidget {
 }
 
 class ClientListItemActive extends StatelessWidget {
-  const ClientListItemActive({super.key});
+  const ClientListItemActive({super.key, required this.table});
+
+  final TableModel table;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        context.read<OrderBloc>().add(GetOrdersEvent(StorageRepository.getString(table.id),table));
         context.pushNamed(RouteNames.place);
       },
       child: Container(
@@ -268,11 +275,11 @@ class ClientListItemActive extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ClientIcon(),
-                ClientDetails(),
+                ClientIcon(table: table),
+                const ClientDetails(),
               ],
             ),
             const Gap(20),

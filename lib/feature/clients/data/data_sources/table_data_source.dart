@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 import 'package:tezz_cafe/core/error/failures.dart';
 import 'package:tezz_cafe/core/utils/di/dio_settings.dart';
 import 'package:tezz_cafe/core/utils/di/service_locator.dart';
@@ -14,7 +15,8 @@ abstract class TableDataSource {
 
   Future<void> updateTable({required String tableId, required String waiterToken, required String cafeId});
 
-  Future<String> loginCode({required String tableId, required String waiterToken, required String cafeId});
+  Future<String> loginCode(
+      {required String tableId, required String waiterToken, required String cafeId, required String code});
 }
 
 class TableDataSourceImpl implements TableDataSource {
@@ -76,15 +78,34 @@ class TableDataSourceImpl implements TableDataSource {
   }
 
   @override
-  Future<String> loginCode({required String tableId, required String waiterToken, required String cafeId}) async {
+  Future<String> loginCode(
+      {required String tableId, required String waiterToken, required String cafeId, required String code}) async {
     try {
       // stol/login/65c2f8827ce4b3f89d31a0a8/65c2f9357ce4b3f89d31a0c2
-      final response =
-          await dio.get('stol/login/$cafeId/$tableId', options: Options(headers: {"Authorization": waiterToken}));
+      print('stol/login/$cafeId/$tableId');
+      print(cafeId);
+      print(tableId);
+      print(code);
+      print(waiterToken);
+      Logger().e(code);
+      final response = await dio.post(
+        'stol/login/$cafeId/$tableId',
+        options: Options(headers: {"Authorization": waiterToken}),
+        data: {"code":code}
+      );
+      Logger().e(response.data);
       if (response.statusCode == 200) {
-        return response.data['data'];
+        return response.data['token'];
+      } else if (response.statusCode == 400) {
+        throw response.data['message'];
       }
       throw 'Status kode 200 ga teng emas ${response.statusCode}';
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 400) {
+        throw e.response?.data['message'] ?? 'Dio Xatolik';
+      } else {
+        throw e.message ?? 'Dio Xatolik';
+      }
     } catch (e) {
       rethrow;
     }
