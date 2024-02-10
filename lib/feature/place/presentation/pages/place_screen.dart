@@ -4,51 +4,63 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:tezz_cafe/business_logic/order/order_bloc.dart';
+import 'package:tezz_cafe/business_logic/menu/menu_bloc.dart';
+import 'package:tezz_cafe/business_logic/order_item/order_item_bloc.dart';
+import 'package:tezz_cafe/business_logic/zone/zone_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/constants/font_style.dart';
 import 'package:tezz_cafe/core/utils/constants/image_strings.dart';
+import 'package:tezz_cafe/core/utils/formatters/currency_formatter.dart';
+import 'package:tezz_cafe/data/order_item/models/order_item_model.dart';
+import 'package:tezz_cafe/data/table/models/table_model.dart';
 import 'package:tezz_cafe/feature/clients/presentation/pages/mijojzlar_screen.dart';
-import 'package:tezz_cafe/feature/menu/presentation/manager/menu_bloc.dart';
-import 'package:tezz_cafe/data/order/models/order_model.dart';
-import 'package:tezz_cafe/feature/waitress/presentation/manager/waitress_bloc.dart';
 
 class PlaceScreen extends StatelessWidget {
-  const PlaceScreen({super.key});
+  const PlaceScreen({super.key, required this.table});
+
+  final TableModel table;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stol-1'),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text('1 234 000 so’m', style: AppFontStyle.description2),
+        title: Text(table.number),
+        actions: [
+          BlocBuilder<OrderItemBloc, OrderItemState>(
+            builder: (context, state) {
+              if (state.status.isInProgress) {
+                return Skeletonizer(
+                  child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(currencyFormat.format(state.totalPrice), style: AppFontStyle.description2)),
+                );
+              }
+              return Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(currencyFormat.format(state.totalPrice), style: AppFontStyle.description2));
+            },
           )
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context
-              .read<MenuBloc>()
-              .add(GetMenuItems(context.read<WaitressBloc>().state.waitress?.cafe.toString() ?? ""));
+          context.read<MenuBloc>().add(GetMenuItems(
+              context.read<ZoneBloc>().state.zone.firstWhere((element) => element.id == table.zone).cafe.toString()));
           context.pushNamed(RouteNames.menu);
         },
         child: const Icon(Icons.add),
       ),
-      body: BlocBuilder<OrderBloc, OrderState>(
+      body: BlocBuilder<OrderItemBloc, OrderItemState>(
         builder: (context, state) {
           if (state.status.isInProgress) {
-          return  Skeletonizer(
+            return Skeletonizer(
               child: ListView.separated(
                 padding: const EdgeInsets.all(20),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return  OrderItem(
-                      order: OrderModel(id: 0, table: 1, waitress: 1, createdAt: DateTime.now(), totalPrice: 'totalPrice', cafe: 1));
+                  return const OrderItem(order: OrderItemModel());
                 },
                 separatorBuilder: (context, index) => const Gap(16),
                 itemCount: 10,
@@ -65,11 +77,11 @@ class PlaceScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    final order = state.orders[index];
+                    final order = state.orderItems[index];
                     return OrderItem(order: order);
                   },
                   separatorBuilder: (context, index) => const Gap(16),
-                  itemCount: state.orders.length,
+                  itemCount: state.orderItems.length,
                 ),
                 const Gap(24),
                 SizedBox(
@@ -92,9 +104,9 @@ class PlaceScreen extends StatelessWidget {
 }
 
 class OrderItem extends StatelessWidget {
-  final OrderModel order;
+  final OrderItemModel order;
 
-  const OrderItem({Key? key, required this.order}) : super(key: key);
+  const OrderItem({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -150,12 +162,12 @@ class OrderItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'G’ijduvon shashlik Ajoyib shashlik',
+                      order.product ?? '',
                       style: AppFontStyle.description2.copyWith(fontWeight: FontWeight.w600, color: AppColors.black),
                     ),
                     const Gap(8),
                     Text(
-                      '56 000 uzs',
+                      currencyFormat.format(order.productOriginalPrice ?? 0),
                       style: AppFontStyle.mIn12.copyWith(color: AppColors.grey400),
                     ),
                     const Gap(4),
@@ -163,11 +175,11 @@ class OrderItem extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          '3  ta :',
+                          '${order.quantity} ta :',
                           style: AppFontStyle.description2
                               .copyWith(fontWeight: FontWeight.w600, color: AppColors.primaryColor),
                         ),
-                        Text('168 000 uzs',
+                        Text(currencyFormat.format(double.parse(order.price ?? "0")),
                             style: AppFontStyle.description2
                                 .copyWith(fontWeight: FontWeight.w600, color: AppColors.grey500)),
                       ],

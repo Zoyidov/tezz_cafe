@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:tezz_cafe/business_logic/order_item/order_item_bloc.dart';
 import 'package:tezz_cafe/business_logic/table/table_bloc.dart';
 import 'package:tezz_cafe/business_logic/zone/zone_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
@@ -227,8 +228,9 @@ class ClientListItemActive extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // context.read<OrderBloc>().add(GetOrdersEvent('1', '1'));
-        context.pushNamed(RouteNames.place);
+        final orderId = context.read<OrderBloc>().state.orders.firstWhere((element) => element.table == table.id).id;
+        context.read<OrderItemBloc>().add(FetchOrderItemsEvent(orderId.toString()));
+        context.pushNamed(RouteNames.place, arguments: table);
       },
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -244,7 +246,18 @@ class ClientListItemActive extends StatelessWidget {
               children: [
                 ClientIcon(table: table),
                 Text(
-                    context.read<OrderBloc>().state.orders.isNotEmpty&& context.read<OrderBloc>().state.orders.map((e) => e.table).contains(table.id) ? formatDate(context.read<OrderBloc>().state.orders.where((element) => element.table == table.id).first.createdAt, [HH, ':', nn]) : '12:00',
+                  context.read<OrderBloc>().state.orders.isNotEmpty &&
+                          context.read<OrderBloc>().state.orders.map((e) => e.table).contains(table.id)
+                      ? formatDate(
+                          context
+                              .watch<OrderBloc>()
+                              .state
+                              .orders
+                              .where((element) => element.table == table.id)
+                              .first
+                              .createdAt,
+                          [HH, ':', nn])
+                      : '12:00',
                   style: context.bodySmall?.copyWith(color: AppColors.grey400),
                 ),
               ],

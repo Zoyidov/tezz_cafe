@@ -33,6 +33,7 @@ dependencies:
   toastification: ^1.2.0
   date_format: ^2.0.7
   animate_do: ^3.3.3
+  blurhash_ffi: ^1.2.4
 
 
 

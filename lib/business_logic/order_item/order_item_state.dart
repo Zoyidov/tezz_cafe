@@ -11,6 +11,8 @@ class OrderItemState {
     this.message = '',
   });
 
+  int get totalPrice => orderItems.fold(0, (previousValue, element) => previousValue + int.parse(element.price ?? '0'));
+
   OrderItemState copyWith({
     FormzSubmissionStatus? status,
     List<OrderItemModel>? orderItems,

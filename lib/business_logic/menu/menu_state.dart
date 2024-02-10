@@ -4,13 +4,13 @@ class MenuState {
   final bool isVisible;
   final FormzSubmissionStatus status;
   final List<MenuModel> menuItems;
-  final String error;
+  final String message;
 
   const MenuState({
     this.isVisible = true,
     this.status = FormzSubmissionStatus.initial,
     this.menuItems = const [],
-    this.error = '',
+    this.message = '',
   });
 
   MenuState copyWith({
@@ -23,7 +23,7 @@ class MenuState {
       isVisible: isVisible ?? this.isVisible,
       status: status ?? this.status,
       menuItems: menuItems ?? this.menuItems,
-      error: error ?? this.error,
+      message: error ?? this.message,
     );
   }
 }

@@ -1,10 +1,10 @@
-
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
-import 'package:tezz_cafe/feature/menu/data/models/menu_model.dart';
-import 'package:tezz_cafe/feature/menu/domain/use_cases/get_menu_items_use_case.dart';
+import 'package:tezz_cafe/core/utils/di/service_locator.dart';
+import 'package:tezz_cafe/data/menu/models/menu_model.dart';
+import 'package:tezz_cafe/data/menu/repositories/menu_repo_impl.dart';
 
 part 'menu_event.dart';
 
@@ -12,10 +12,9 @@ part 'menu_state.dart';
 
 class MenuBloc extends Bloc<MenuEvent, MenuState> {
   final ScrollController scrollController = ScrollController();
-  final GetMenuItemsUseCase getMenuItemsUseCase;
+  final MenuRepository menuRepository = getIt<MenuRepositoryImpl>();
 
-  MenuBloc(this.getMenuItemsUseCase) : super(const MenuState()) {
-    on<MenuEvent>((event, emit) {});
+  MenuBloc() : super(const MenuState()) {
     on<ScrollUp>(_onScrollUp);
     on<ScrollDown>(_onScrollDown);
     on<GetMenuItems>(_onGetMenuItems);
@@ -25,7 +24,7 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
 
   void _onGetMenuItems(GetMenuItems event, Emitter<MenuState> emit) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    final result = await getMenuItemsUseCase.execute(event.cafeId);
+    final result = await menuRepository.getMenuItems(event.cafeId);
 
     result.fold(
       (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure, error: l.message)),

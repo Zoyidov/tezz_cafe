@@ -4,20 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:tezz_cafe/business_logic/menu/menu_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/api_constants.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/constants/image_strings.dart';
-import 'package:tezz_cafe/feature/menu/presentation/manager/menu_bloc.dart';
 import 'package:tezz_cafe/feature/menu/presentation/widgets/place_actions_widget.dart';
 import 'package:tezz_cafe/feature/product/presentation/manager/product_bloc.dart';
+import 'package:blurhash_ffi/blurhash_ffi.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Menu'),
@@ -30,7 +30,6 @@ class MenuScreen extends StatelessWidget {
               child: ListView.separated(
                 padding: const EdgeInsets.all(16),
                 itemBuilder: (context, index) {
-
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -67,10 +66,9 @@ class MenuScreen extends StatelessWidget {
                 itemCount: 10,
               ),
             );
-
           }
           if (state.status.isFailure) {
-            return Center(child: Text(state.error, style: context.bodyMedium?.copyWith()));
+            return Center(child: Text(state.message, style: context.bodyMedium?.copyWith()));
           }
           if (state.menuItems.isEmpty) {
             return Center(
@@ -86,6 +84,7 @@ class MenuScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             itemBuilder: (context, index) {
               final menuItem = state.menuItems[index];
+              final blurhash = BlurhashFFI.encode(NetworkImage(menuItem.image));
               return GestureDetector(
                 onTap: () {
                   context.pushNamed(RouteNames.category, arguments: menuItem);
@@ -97,8 +96,12 @@ class MenuScreen extends StatelessWidget {
                     Container(
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                      child: Image.network(
-                        "${ApiConstants.baseUrl}/${menuItem.image}",
+                      child: Image(
+                        image: BlurhashTheImage(
+                          NetworkImage(menuItem.image),
+                          decodingHeight: 170,
+                          decodingWidth: 170,
+                        ),
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: 170,
