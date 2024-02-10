@@ -253,9 +253,12 @@ class ClientListItemActive extends StatelessWidget {
                               .watch<OrderBloc>()
                               .state
                               .orders
-                              .where((element) => element.table == table.id)
-                              .first
-                              .createdAt,
+                              .where((element) => element.table == table.id).isNotEmpty
+                              ? context
+                              .watch<OrderBloc>()
+                              .state
+                              .orders
+                              .where((element) => element.table == table.id).firstOrNull?.createdAt ?? DateTime.now():DateTime.now(),
                           [HH, ':', nn])
                       : '12:00',
                   style: context.bodySmall?.copyWith(color: AppColors.grey400),

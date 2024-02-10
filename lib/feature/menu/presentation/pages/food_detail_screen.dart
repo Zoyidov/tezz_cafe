@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:tezz_cafe/business_logic/menu/menu_bloc.dart';
+import 'package:tezz_cafe/business_logic/product/product_bloc.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/constants/font_style.dart';
 import 'package:tezz_cafe/core/utils/constants/image_strings.dart';
 import 'package:tezz_cafe/core/utils/formatters/currency_formatter.dart';
+import 'package:tezz_cafe/data/product/models/product_model.dart';
 import 'package:tezz_cafe/feature/menu/presentation/widgets/place_actions_widget.dart';
-import 'package:tezz_cafe/feature/product/data/models/product_model.dart';
-import 'package:tezz_cafe/feature/product/presentation/manager/product_bloc.dart';
 
 class FoodDetailScreen extends StatelessWidget {
   const FoodDetailScreen({super.key, required this.product});

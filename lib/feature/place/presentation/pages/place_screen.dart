@@ -1,4 +1,5 @@
 import 'package:awesome_extensions/awesome_extensions.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -133,7 +134,7 @@ class OrderItem extends StatelessWidget {
                     const Text('Chaqiruv', style: AppFontStyle.description),
                     const Gap(8),
                     Text(
-                      '/ 12:00',
+                      '/ ${formatDate(order.createdAt?? DateTime.now(), [HH, ':', nn])}',
                       style: context.bodySmall?.copyWith(color: AppColors.grey400),
                     ),
                   ],
