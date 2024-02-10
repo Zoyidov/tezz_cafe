@@ -10,9 +10,7 @@ import 'package:tezz_cafe/business_logic/zone/zone_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/formatters/currency_formatter.dart';
-import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
 import 'package:tezz_cafe/data/table/models/table_model.dart';
-import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 import 'package:date_format/date_format.dart';
 import '../../../../business_logic/order/order_bloc.dart';
@@ -257,7 +255,7 @@ class ClientListItemActive extends StatelessWidget {
                               .first
                               .createdAt,
                           [HH, ':', nn])
-                      : '12:00',
+                      : '-',
                   style: context.bodySmall?.copyWith(color: AppColors.grey400),
                 ),
               ],
