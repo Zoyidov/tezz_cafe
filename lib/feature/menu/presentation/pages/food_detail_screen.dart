@@ -20,7 +20,6 @@ class FoodDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
-
         return Scaffold(
           appBar: AppBar(
             title: Text(product.name),
@@ -28,9 +27,7 @@ class FoodDetailScreen extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(12),
-            controller: context
-                .read<MenuBloc>()
-                .scrollController,
+            controller: context.read<MenuBloc>().scrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -39,10 +36,16 @@ class FoodDetailScreen extends StatelessWidget {
                   width: 336,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: Image.asset(
-                    AppImages.food1,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.network(product.image,
+                      fit: BoxFit.cover,
+                      height: 170,
+                      width: double.infinity,
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                            AppImages.imageNotFound,
+                            fit: BoxFit.cover,
+                            height: 170,
+                            width: double.infinity,
+                          )),
                 ),
                 const Gap(12),
                 Column(
@@ -114,9 +117,12 @@ class FoodDetailScreen extends StatelessWidget {
             // top: state.isVisible ? 0 : 100,
             opacity: state.isVisible ? 1 : 0,
             child: Row(mainAxisSize: MainAxisSize.min, children: [
-              IconButton.filledTonal(onPressed: () {
-                context.read<ProductBloc>().add(ProductDecrement());
-              }, icon: const Icon(Icons.remove), style: iconButtonStyle),
+              IconButton.filledTonal(
+                  onPressed: () {
+                    context.read<ProductBloc>().add(ProductDecrement());
+                  },
+                  icon: const Icon(Icons.remove),
+                  style: iconButtonStyle),
               const Gap(12),
               Text(
                 state.count.toString(),
@@ -128,9 +134,12 @@ class FoodDetailScreen extends StatelessWidget {
                 ),
               ),
               const Gap(12),
-              IconButton.filledTonal(onPressed: () {
-                context.read<ProductBloc>().add(ProductIncrement());
-              }, icon: const Icon(Icons.add), style: iconButtonStyle),
+              IconButton.filledTonal(
+                  onPressed: () {
+                    context.read<ProductBloc>().add(ProductIncrement());
+                  },
+                  icon: const Icon(Icons.add),
+                  style: iconButtonStyle),
             ]),
           ),
           bottomNavigationBar: Padding(

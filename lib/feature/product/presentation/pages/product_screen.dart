@@ -131,7 +131,7 @@ class ProductScreen extends StatelessWidget {
                     Container(
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                      child: Image.network("${ApiConstants.baseUrl}/${product.image}",
+                      child: Image.network(product.image,
                           fit: BoxFit.cover,
                           height: 170,
                           width: double.infinity,

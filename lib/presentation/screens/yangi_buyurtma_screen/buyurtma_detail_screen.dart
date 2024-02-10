@@ -41,17 +41,17 @@ class BuyurtmaDetailScreen extends StatelessWidget {
                 Expanded(
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      final order = state.orders[index];
+                      final order = state.orders?[index];
                       return OrderContainer(
-                          time: formatDate(order.createdAt, [HH, ':', nn,]),
+                          time: formatDate(order?.createdAt?? DateTime.now(), [HH, ':', nn,]),
                           foodName: "Kartoshka",
-                          price: "${order.totalPrice} uzs",
+                          price: "${order?.totalPrice} uzs",
                           count: "3 ta : ",
-                          countPrice: "${order.totalPrice} uzs",
+                          countPrice: "${order?.totalPrice} uzs",
                           image: "https://source.unsplash.com/800x533/?food",
                           onTap: () {},
                         );},
-                    itemCount: state.orders.length,
+                    itemCount: state.orders?.length,
                     shrinkWrap: true,
                   ),
                 ),
