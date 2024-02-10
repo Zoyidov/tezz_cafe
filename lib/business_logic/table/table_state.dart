@@ -2,12 +2,12 @@ part of 'table_bloc.dart';
 
 class TableState {
   FormzSubmissionStatus status;
-  List<TableModel> table;
+  List<TableModel>? table;
   String message;
 
   TableState({
     this.status = FormzSubmissionStatus.initial,
-    this.table = const [],
+    this.table ,
     this.message = '',
   });
 

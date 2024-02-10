@@ -5,12 +5,11 @@ import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tezz_cafe/business_logic/menu/menu_bloc.dart';
+import 'package:tezz_cafe/business_logic/product/product_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
-import 'package:tezz_cafe/core/utils/constants/api_constants.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/constants/image_strings.dart';
 import 'package:tezz_cafe/feature/menu/presentation/widgets/place_actions_widget.dart';
-import 'package:tezz_cafe/feature/product/presentation/manager/product_bloc.dart';
 import 'package:blurhash_ffi/blurhash_ffi.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -96,14 +95,12 @@ class MenuScreen extends StatelessWidget {
                     Container(
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                      child: Image(
-                        image: BlurhashTheImage(
-                          NetworkImage(menuItem.image),
-                          decodingHeight: 170,
-                          decodingWidth: 170,
-                        ),
+                      child: Image.network(
+                        menuItem.image,
                         fit: BoxFit.cover,
                         width: double.infinity,
+                        cacheHeight: 1080,
+                        cacheWidth: 1920,
                         height: 170,
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(

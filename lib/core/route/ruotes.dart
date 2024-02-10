@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tezz_cafe/data/menu/models/menu_model.dart';
+import 'package:tezz_cafe/data/product/models/product_model.dart';
 import 'package:tezz_cafe/data/table/models/table_model.dart';
-import 'package:tezz_cafe/feature/product/data/models/product_model.dart';
 import 'package:tezz_cafe/feature/product/presentation/pages/product_screen.dart';
 import 'package:tezz_cafe/feature/menu/presentation/pages/food_detail_screen.dart';
 import 'package:tezz_cafe/feature/menu/presentation/pages/menu_screen.dart';

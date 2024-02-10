@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tezz_cafe/business_logic/menu/menu_bloc.dart';
 import 'package:tezz_cafe/business_logic/order/order_bloc.dart';
 import 'package:tezz_cafe/business_logic/order_item/order_item_bloc.dart';
+import 'package:tezz_cafe/business_logic/product/product_bloc.dart';
 import 'package:tezz_cafe/business_logic/table/table_bloc.dart';
 import 'package:tezz_cafe/business_logic/zone/zone_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
@@ -13,8 +14,6 @@ import 'package:tezz_cafe/feature/auth/presentation/manager/auth_bloc.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tezz_cafe/feature/product/domain/use_cases/get_product_by_menu_id_usecase.dart';
-import 'package:tezz_cafe/feature/product/presentation/manager/product_bloc.dart';
 import 'package:tezz_cafe/feature/waitress/domain/use_cases/get_waitress_by_token.dart';
 import 'package:tezz_cafe/feature/waitress/presentation/manager/waitress_bloc.dart';
 
@@ -25,16 +24,17 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => TabCubit()),
-        BlocProvider(create: (context) => ZoneBloc()..add(FetchZoneByCafeIdEvent('1'))),
-        BlocProvider(create: (context) => OrderItemBloc()),
-        BlocProvider(create: (context) => TableBloc()..add(GetTablesByCafeEvent('1'))),
         BlocProvider(create: (context) => OrderBloc()..add(FetchOrdersByCafeIdEvent('1', '1'))),
+        BlocProvider(create: (context) => TableBloc()..add(GetTablesByCafeEvent('1'))),
+        BlocProvider(create: (context) => ZoneBloc()..add(FetchZoneByCafeIdEvent('1'))),
+        BlocProvider(create: (context) => TabCubit()),
+        BlocProvider(create: (context) => ProductBloc()),
+        BlocProvider(create: (context) => OrderItemBloc()),
         BlocProvider(create: (context) => WaitressBloc(getIt.get<GetWaitressByToken>())),
         BlocProvider(create: (context) => ClientTabBloc()),
         BlocProvider(create: (context) => MenuBloc()),
         BlocProvider(create: (context) => AuthBloc(getIt.get<LoginUseCase>())..add(AuthInitial())),
-        BlocProvider(create: (context) => ProductBloc(getIt.get<GetProductByMenuIdUseCase>())),
+        BlocProvider(create: (context) => ProductBloc()),
       ],
       child: const MainApp(),
     );

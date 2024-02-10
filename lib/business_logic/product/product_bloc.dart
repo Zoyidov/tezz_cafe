@@ -1,16 +1,17 @@
 import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tezz_cafe/feature/product/data/models/product_model.dart';
-import 'package:tezz_cafe/feature/product/domain/use_cases/get_product_by_menu_id_usecase.dart';
+import 'package:tezz_cafe/core/utils/di/service_locator.dart';
+import 'package:tezz_cafe/data/product/models/product_model.dart';
+import 'package:tezz_cafe/data/product/repositories/product_repository_impl.dart';
 
 part 'product_event.dart';
 
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  final GetProductByMenuIdUseCase getProductByMenuIdUseCase;
+  final ProductRepository productRepository = getIt<ProductRepositoryImpl>();
 
-  ProductBloc(this.getProductByMenuIdUseCase) : super(const ProductState()) {
+  ProductBloc() : super(const ProductState()) {
     on<GetProductByMenuId>(_onGetProductByMenuId);
     on<ProductIncrement>(_onProductIncrement);
     on<ProductDecrement>(_onProductDecrement);
@@ -32,7 +33,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   void _onGetProductByMenuId(GetProductByMenuId event, Emitter<ProductState> emit) async {
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-    final result = await getProductByMenuIdUseCase.execute(event.menuId);
+    final result = await productRepository.getProductByMenuId(event.menuId);
     result.fold(
       (l) => emit(state.copyWith(status: FormzSubmissionStatus.failure, error: l.message)),
       (r) => emit(state.copyWith(status: FormzSubmissionStatus.success, products: r)),

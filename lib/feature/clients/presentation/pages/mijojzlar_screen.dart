@@ -137,7 +137,7 @@ class ClientsPageView extends StatelessWidget {
 
         return PageView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: state.table.length,
+          itemCount: state.table?.length ?? 0,
           controller: context.read<ZoneBloc>().activePageController,
           // onPageChanged: (value) => clientTabBloc.add(PageChanged(index: value)),
           itemBuilder: (context, index) {
@@ -160,7 +160,8 @@ class ClientsListView extends StatelessWidget {
     return BlocBuilder<TableBloc, TableState>(
       builder: (context, state) {
         final List<TableModel> filteredTables =
-            state.table.where((element) => zoneBloc.state.zone[index].id == element.zone && element.active).toList();
+            state.table?.where((element) => zoneBloc.state.zone[index].id == element.zone && element.active).toList() ??
+                [];
         if (filteredTables.isEmpty) {
           return Center(child: Text('Stollar topilmadi', style: context.titleLarge, textAlign: TextAlign.center));
         }
@@ -226,7 +227,7 @@ class ClientListItemActive extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        final orderId = context.read<OrderBloc>().state.orders.firstWhere((element) => element.table == table.id).id;
+        final orderId = context.read<OrderBloc>().state.orders?.firstWhere((element) => element.table == table.id).id;
         context.read<OrderItemBloc>().add(FetchOrderItemsEvent(orderId.toString()));
         context.pushNamed(RouteNames.place, arguments: table);
       },
@@ -244,16 +245,24 @@ class ClientListItemActive extends StatelessWidget {
               children: [
                 ClientIcon(table: table),
                 Text(
-                  context.read<OrderBloc>().state.orders.isNotEmpty &&
-                          context.read<OrderBloc>().state.orders.map((e) => e.table).contains(table.id)
+                  context.read<OrderBloc>().state.orders!.isNotEmpty &&
+                          (context.read<OrderBloc>().state.orders?.map((e) => e.table)??[]).contains(table.id)??false
                       ? formatDate(
                           context
-                              .watch<OrderBloc>()
-                              .state
-                              .orders
-                              .where((element) => element.table == table.id)
-                              .first
-                              .createdAt,
+                                      .watch<OrderBloc>()
+                                      .state
+                                      .orders
+                                      ?.where((element) => element.table == table.id)
+                                      .isNotEmpty ??
+                                  false
+                              ? context
+                                  .watch<OrderBloc>()
+                                  .state
+                                  .orders
+                                  ?.where((element) => element.table == table.id)
+                                  .elementAt(0)
+                                  .createdAt ?? DateTime.now()
+                              : DateTime.now(),
                           [HH, ':', nn])
                       : '-',
                   style: context.bodySmall?.copyWith(color: AppColors.grey400),

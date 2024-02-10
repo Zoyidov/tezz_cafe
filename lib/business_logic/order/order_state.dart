@@ -2,12 +2,12 @@ part of 'order_bloc.dart';
 
 class OrderState {
   final FormzSubmissionStatus status;
-  final List<OrderModel> orders;
+  final List<OrderModel>? orders;
   final String message;
 
   OrderState({
     this.status = FormzSubmissionStatus.initial,
-    this.orders = const [],
+    this.orders,
     this.message = '',
   });
 

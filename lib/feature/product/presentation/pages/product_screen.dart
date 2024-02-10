@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:tezz_cafe/business_logic/product/product_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/api_constants.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
@@ -12,7 +13,6 @@ import 'package:tezz_cafe/core/utils/constants/image_strings.dart';
 import 'package:tezz_cafe/core/utils/formatters/currency_formatter.dart';
 import 'package:tezz_cafe/data/menu/models/menu_model.dart';
 import 'package:tezz_cafe/feature/menu/presentation/widgets/place_actions_widget.dart';
-import 'package:tezz_cafe/feature/product/presentation/manager/product_bloc.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key, required this.menuModel});
