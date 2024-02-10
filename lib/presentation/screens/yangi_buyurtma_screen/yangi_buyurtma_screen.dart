@@ -45,8 +45,8 @@ class YangiBuyurtmaScreen extends StatelessWidget {
       body: BlocBuilder<TableBloc, TableState>(
         builder: (context, state) {
           final List<TableModel> filteredTables = state.table
-              .where((element) => element.active)
-              .toList();
+              ?.where((element) => element.active)
+              .toList()??[];
           if (filteredTables.isEmpty) {
             return Center(child: Text('Buyurtmalar mavjud emas', style: context.titleLarge, textAlign: TextAlign.center));
           }
@@ -57,27 +57,27 @@ class YangiBuyurtmaScreen extends StatelessWidget {
               final stolNumber = index ;
               return NotificationContainer(
                 type: 'Yangi buyurtma',
-                place: state.table[index].number,
-                time: context.read<OrderBloc>().state.orders.isNotEmpty &&
-                    context.read<OrderBloc>().state.orders.map((e) => e.table).contains(state.table[index].id)
+                place: state.table?[index].number??'',
+                time: (context.read<OrderBloc>().state.orders??[]).isNotEmpty &&
+                    (context.read<OrderBloc>().state.orders?.map((e) => e.table)??[]).contains(state.table?[index].id)
                     ? formatDate(
                     context
                         .watch<OrderBloc>()
                         .state
                         .orders
-                        .where((element) => element.table == state.table[index].id)
+                        ?.where((element) => element.table == state.table?[index].id)
                         .first
-                        .createdAt,
+                        .createdAt??DateTime.now(),
                     [HH, ':', nn])
                     : '--:--',
                 status: 'Ko\'rish',
                 onTap: () {
-                  context.read<ZoneBloc>().add(FetchZoneByCafeIdEvent(state.table[index].zone.toString()));
-                  context.read<TableBloc>().add(GetTablesByCafeEvent(state.table[index].zone.toString()));
-                  context
-                      .read<OrderBloc>()
-                      .add(FetchOrdersByCafeIdEvent(state.table[index].zone.toString(), state.table[index].id.toString()));
-                  context.push(BuyurtmaDetailScreen(stolNumber: stolNumber, table: state.table[index]));
+                  // context.read<ZoneBloc>().add(FetchZoneByCafeIdEvent(state.table?[index].zone.toString()??''));
+                  // context.read<TableBloc>().add(GetTablesByCafeEvent(state.table?[index].zone.toString()??''));
+                  // context
+                  //     .read<OrderBloc>()
+                  //     .add(FetchOrdersByCafeIdEvent(state.table?[index].zone.toString()??'', state.table?[index].id.toString()??''));
+                  context.push(BuyurtmaDetailScreen(stolNumber: stolNumber, table: state.table?[index]??const TableModel(id: 1, number: 'number', capacity: 0, active: false, zone: 1)));
                 },
               );
             },
