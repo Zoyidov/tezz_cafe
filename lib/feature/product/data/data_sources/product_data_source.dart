@@ -18,7 +18,7 @@ class ProductDataSourceImpl implements ProductDataSource {
     try {
       final response = await dio.dio.get(ApiConstants.productAll,queryParameters: {'menu_id': menuId});
       if (response.statusCode == 200) {
-        return List<ProductModel>.from((response.data['data'] as List).map((e) => ProductModel.fromJson(e)));
+        return List<ProductModel>.from((response.data as List).map((e) => ProductModel.fromJson(e)));
         // return (response.data as List).map((e) => ProductModel.fromJson(e)).toList();
       }
       throw UnknownFailure(response.data.toString());

@@ -11,4 +11,8 @@ class ApiConstants {
   static const String zoneAll = "zones";
   static const String waiterOne = "waitresses";
   static const String orders = "orders";
+  static const String zones = "zones";
+  static const String tables = "tables";
+  static const String orderItems = "orderitems";
+
 }

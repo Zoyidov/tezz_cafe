@@ -14,4 +14,6 @@ class DioSettings {
   BaseOptions get dioBaseOptions => _dioBaseOptions;
 
   Dio get dio => Dio(_dioBaseOptions);
+
+
 }

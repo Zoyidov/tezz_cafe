@@ -1,10 +1,7 @@
-import 'package:meta/meta.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 
 part 'order_model.freezed.dart';
 part 'order_model.g.dart';
-
 @freezed
 class OrderModel with _$OrderModel {
   const factory OrderModel({

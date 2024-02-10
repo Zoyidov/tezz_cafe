@@ -4,14 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:tezz_cafe/business_logic/order/order_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
 import 'package:tezz_cafe/core/utils/constants/font_style.dart';
 import 'package:tezz_cafe/core/utils/constants/image_strings.dart';
 import 'package:tezz_cafe/feature/clients/presentation/pages/mijojzlar_screen.dart';
 import 'package:tezz_cafe/feature/menu/presentation/manager/menu_bloc.dart';
-import 'package:tezz_cafe/feature/orders/data/models/order_model.dart';
-import 'package:tezz_cafe/feature/orders/presentation/manager/order_bloc.dart';
+import 'package:tezz_cafe/data/order/models/order_model.dart';
 import 'package:tezz_cafe/feature/waitress/presentation/manager/waitress_bloc.dart';
 
 class PlaceScreen extends StatelessWidget {
@@ -47,8 +47,8 @@ class PlaceScreen extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return const OrderItem(
-                      order: OrderModel(id: 'id', productId: 'productId', stolId: 'stolId', count: 1));
+                  return  OrderItem(
+                      order: OrderModel(id: 0, table: 1, waitress: 1, createdAt: DateTime.now(), totalPrice: 'totalPrice', cafe: 1));
                 },
                 separatorBuilder: (context, index) => const Gap(16),
                 itemCount: 10,
@@ -65,11 +65,11 @@ class PlaceScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    final order = state.filteredOrders[index];
+                    final order = state.orders[index];
                     return OrderItem(order: order);
                   },
                   separatorBuilder: (context, index) => const Gap(16),
-                  itemCount: state.filteredOrders.length,
+                  itemCount: state.orders.length,
                 ),
                 const Gap(24),
                 SizedBox(
@@ -163,7 +163,7 @@ class OrderItem extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          '${order.count} ta :',
+                          '3  ta :',
                           style: AppFontStyle.description2
                               .copyWith(fontWeight: FontWeight.w600, color: AppColors.primaryColor),
                         ),

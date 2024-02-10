@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tezz_cafe/business_logic/order/order_bloc.dart';
+import 'package:tezz_cafe/business_logic/table/table_bloc.dart';
+import 'package:tezz_cafe/business_logic/zone/zone_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/local_storage/storage_keys.dart';
 import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
-import 'package:tezz_cafe/feature/clients/data/data_sources/table_data_source.dart';
-import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
-import 'package:tezz_cafe/feature/orders/presentation/manager/order_bloc.dart';
-import 'package:tezz_cafe/feature/waitress/presentation/manager/waitress_bloc.dart';
 import 'package:tezz_cafe/presentation/screens/yangi_buyurtma_screen/buyurtma_detail_screen.dart';
 import 'package:tezz_cafe/presentation/widgets/notification_container.dart';
 
@@ -19,7 +18,11 @@ class YangiBuyurtmaScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
           heroTag: 's',
           onPressed: () async {
-            print(await TableDataSourceImpl().getTableByWaitressId(cafeId: 1.toString()));
+            // context.read<ZoneBloc>().add(FetchZoneByCafeIdEvent('1'));
+            // context.read<TableBloc>().add(GetTablesByCafeEvent('1'));
+            // context.read<OrderBloc>().add(FetchOrdersByCafeIdEvent('1', '1'));
+            print(context.read<OrderBloc>().state.orders);
+
           }),
       appBar: AppBar(
         // scrolledUnderElevation: 0,

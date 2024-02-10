@@ -4,13 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:tezz_cafe/business_logic/table/table_bloc.dart';
+import 'package:tezz_cafe/business_logic/zone/zone_bloc.dart';
 import 'package:tezz_cafe/core/route/ruotes.dart';
 import 'package:tezz_cafe/core/utils/constants/colors.dart';
+import 'package:tezz_cafe/core/utils/formatters/currency_formatter.dart';
 import 'package:tezz_cafe/core/utils/local_storage/storage_repository.dart';
-import 'package:tezz_cafe/feature/clients/data/models/table_model.dart';
+import 'package:tezz_cafe/data/table/models/table_model.dart';
 import 'package:tezz_cafe/feature/clients/presentation/manager/client_tab_bloc.dart';
 import 'package:tezz_cafe/feature/navigation/presentation/manager/tab_cubit.dart';
-import 'package:tezz_cafe/feature/orders/presentation/manager/order_bloc.dart';
+import 'package:date_format/date_format.dart';
+import '../../../../business_logic/order/order_bloc.dart';
 
 class ClientsScreen extends StatefulWidget {
   const ClientsScreen({super.key});
@@ -54,14 +58,15 @@ class ToggleButtonsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final clientTabBloc = context.read<ClientTabBloc>();
+    // final clientTabBloc = context.read<ClientTabBloc>();
 
     // final width = context.width * 0.9 / max(1, clientTabBloc.state.isSelected.length);
-    return BlocBuilder<ClientTabBloc, ClientTabState>(
+    return BlocBuilder<ZoneBloc, ZoneState>(
       builder: (context, state) {
-        if (state.zoneStatus.isInProgress) {
+        print(state.status);
+        if (state.status.isInProgress) {
           return const Skeletonizer(child: ZoneShimmerWidget());
-        } else if (state.zones.isEmpty && state.zoneStatus.isSuccess) {
+        } else if (state.zone.isEmpty && state.status.isSuccess) {
           return const Text('Zonalar mavjud emas');
         }
 
@@ -75,9 +80,9 @@ class ToggleButtonsContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               constraints: BoxConstraints(
                   maxWidth: context.width * 0.3, minWidth: context.width * 0.3, minHeight: 36, maxHeight: 36),
-              isSelected: context.watch<ClientTabBloc>().state.isSelected,
-              onPressed: (int index) => clientTabBloc.add(TabChanged(index: index)),
-              children: state.zones.map((e) => Text(e.name)).toList(),
+              isSelected: state.activeZone,
+              onPressed: (index) => context.read<ZoneBloc>().add(SelectActiveZoneEvent(index)),
+              children: state.zone.map((e) => Text(e.name)).toList(),
             ),
           ),
         );
@@ -115,19 +120,15 @@ class ClientsPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final clientTabBloc = context.read<ClientTabBloc>();
-
-    return BlocBuilder<ClientTabBloc, ClientTabState>(
+    return BlocBuilder<TableBloc, TableState>(
       builder: (context, state) {
-        if (state.tableStatus.isInProgress) {
+        if (state.status.isInProgress) {
           return Skeletonizer(
             child: ListView.separated(
               padding: const EdgeInsets.all(20),
               itemBuilder: (context, index) {
                 return const ClientListItemActive(
-                  table: TableModel(
-                      id: 'id', stolNomi: 'stolNomi', qr: 'qr', active: true, kafeId: 'kafeId', zoneId: 'zoneId'),
-                );
+                    table: TableModel(id: 1, number: 'number', capacity: 1, active: true, totalPrice: 0, zone: 1));
               },
               separatorBuilder: (context, index) => const Gap(12),
               itemCount: 10,
@@ -137,8 +138,8 @@ class ClientsPageView extends StatelessWidget {
 
         return PageView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: clientTabBloc.state.zones.length,
-          controller: clientTabBloc.pageControllerActive,
+          itemCount: state.table.length,
+          controller: context.read<ZoneBloc>().activePageController,
           // onPageChanged: (value) => clientTabBloc.add(PageChanged(index: value)),
           itemBuilder: (context, index) {
             return ClientsListView(index: index);
@@ -156,15 +157,13 @@ class ClientsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ClientTabBloc, ClientTabState>(
+    final zoneBloc = context.read<ZoneBloc>();
+    return BlocBuilder<TableBloc, TableState>(
       builder: (context, state) {
         final List<TableModel> filteredTables =
-            state.tables.where((element) => state.zones[index].id == element.zoneId && element.active).toList();
-        state.tables.where((element) => state.zones[index].id == element.zone && element.active).toList();
+            state.table.where((element) => zoneBloc.state.zone[index].id == element.zone && element.active).toList();
         if (filteredTables.isEmpty) {
-          return Center(
-            child: Text('Stollar topilmadi', style: context.titleLarge, textAlign: TextAlign.center),
-          );
+          return Center(child: Text('Stollar topilmadi', style: context.titleLarge, textAlign: TextAlign.center));
         }
         return ListView.separated(
           padding: const EdgeInsets.all(20),
@@ -176,30 +175,6 @@ class ClientsListView extends StatelessWidget {
           itemCount: filteredTables.length,
         );
       },
-    );
-  }
-}
-
-class ClientListItem extends StatelessWidget {
-  const ClientListItem({super.key, required this.table});
-
-  final TableModel table;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: AppColors.textFieldColor,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ClientIcon(table: table),
-          const ClientDetails(),
-        ],
-      ),
     );
   }
 }
@@ -217,7 +192,7 @@ class ClientIcon extends StatelessWidget {
         CircleIcon(isActive: isActive),
         const Gap(8),
         Text(
-          table.stolNomi,
+          table.number,
           style: context.headlineSmall?.copyWith(color: AppColors.black, fontWeight: FontWeight.w600),
         ),
       ],
@@ -243,18 +218,6 @@ class CircleIcon extends StatelessWidget {
   }
 }
 
-class ClientDetails extends StatelessWidget {
-  const ClientDetails({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      '12:00',
-      style: context.bodySmall?.copyWith(color: AppColors.grey400),
-    );
-  }
-}
-
 class ClientListItemActive extends StatelessWidget {
   const ClientListItemActive({super.key, required this.table});
 
@@ -264,7 +227,7 @@ class ClientListItemActive extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.read<OrderBloc>().add(GetOrdersEvent(StorageRepository.getString(table.id),table));
+        // context.read<OrderBloc>().add(GetOrdersEvent('1', '1'));
         context.pushNamed(RouteNames.place);
       },
       child: Container(
@@ -280,12 +243,15 @@ class ClientListItemActive extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ClientIcon(table: table),
-                const ClientDetails(),
+                Text(
+                    context.read<OrderBloc>().state.orders.isNotEmpty&& context.read<OrderBloc>().state.orders.map((e) => e.table).contains(table.id) ? formatDate(context.read<OrderBloc>().state.orders.where((element) => element.table == table.id).first.createdAt, [HH, ':', nn]) : '12:00',
+                  style: context.bodySmall?.copyWith(color: AppColors.grey400),
+                ),
               ],
             ),
             const Gap(20),
             Text(
-              "234 000 so’m",
+              currencyFormat.format(table.totalPrice),
               textAlign: TextAlign.right,
               style: context.titleMedium?.copyWith(color: AppColors.black),
             )

@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart'; // You may need to import Dio or use your preferred HTTP client
 import 'package:tezz_cafe/core/utils/constants/api_constants.dart';
+import 'package:tezz_cafe/core/utils/di/dio_settings.dart';
+import 'package:tezz_cafe/core/utils/di/service_locator.dart';
 import 'package:tezz_cafe/feature/auth/data/data_sources/auth_datasource.dart';
 import 'package:tezz_cafe/feature/menu/data/models/menu_model.dart';
 import 'package:tezz_cafe/core/error/failures.dart'; // Import your failure classes
@@ -9,9 +11,9 @@ abstract class MenuDataSource {
 }
 
 class MenuDataSourceImpl implements MenuDataSource {
-  final Dio dio; // Assuming you're using Dio for HTTP requests
+  final Dio dio = getIt<DioSettings>().dio; // Assuming you're using Dio for HTTP requests
 
-  MenuDataSourceImpl(this.dio);
+  MenuDataSourceImpl();
 
   @override
   Future<List<MenuModel>> getMenuItems(String cafeId) async {
