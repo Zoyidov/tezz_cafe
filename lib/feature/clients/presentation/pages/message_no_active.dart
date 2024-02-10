@@ -160,7 +160,7 @@ class ClientsListView extends StatelessWidget {
     return BlocBuilder<TableBloc, TableState>(
       builder: (context, state) {
         final List<TableModel> filteredTables =
-            state.table.where((element) => zoneBloc.state.zone[index].id == element.zone && !element.active).toList();
+            state.table?.where((element) => zoneBloc.state.zone[index].id == element.zone && !element.active).toList()?? [];
         if (filteredTables.isEmpty) {
           return Center(
             child: Text(
